@@ -1,17 +1,21 @@
 <template>
   <div v-if="houses && houses.length">
     <div v-for="(house, index) in houses" :key="index">
-      <router-link :to="`/details/${house.id}`">
+      <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
         <div class="house-card background-2">
           <div class="leftSide">
             <img :src="house.image" alt="House image" class="house-image" />
             <div class="additionalInfo">
-              <p class="header-2">
+              <p class="header-2 primary-element">
                 {{ house.location.street }} {{ house.location.houseNumber
                 }}{{ house.location.houseNumberAddition }}
               </p>
-              <p>€ {{ house.price.toLocaleString("de-DE") }}</p>
-              <p>{{ house.location.zip }} {{ house.location.city }}</p>
+              <p class="primary-element">
+                € {{ house.price.toLocaleString("de-DE") }}
+              </p>
+              <p class="secondary-element">
+                {{ house.location.zip }} {{ house.location.city }}
+              </p>
               <div class="leftSide">
                 <p>{{ house.rooms.bedrooms }}</p>
                 <p>{{ house.rooms.bathrooms }}</p>
@@ -40,29 +44,18 @@
 
 <script>
 import { ref, onMounted, computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   props: ["searchQuery", "selectedButton"],
   setup(props) {
+    const store = useStore();
     const houses = ref(null);
-    const api_key = "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW"; // Replace with your actual API key
 
-    const fetchHouses = async () => {
-      const response = await fetch("https://api.intern.d-tt.nl/api/houses", {
-        headers: {
-          "X-Api-Key": api_key,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      houses.value = await response.json();
-      console.log(houses.value);
-    };
-
-    onMounted(fetchHouses);
+    onMounted(async () => {
+      await store.dispatch('fetchHouses');
+      houses.value = store.getters.houses;
+    });
 
     const sortedAndFilteredHouses = computed(() => {
       let result = houses.value;
@@ -84,14 +77,9 @@ export default {
         });
       }
 
-      console.log(result);
-
       if (props.selectedButton === "price" && houses.value) {
-        console.log("price");
-        // console.log(result.sort((a, b) => a.price - b.price));
         result = result.sort((a, b) => a.price - b.price);
       } else if (props.selectedButton === "size" && houses.value) {
-        console.log("size");
         result = result.sort((a, b) => a.size - b.size);
       }
 
