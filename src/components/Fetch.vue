@@ -1,26 +1,28 @@
 <template>
   <div v-if="houses && houses.length">
     <div v-for="(house, index) in houses" :key="index">
-      <div class="house-card background-2">
-        <div class="leftSide">
-          <img :src="house.image" alt="House image" class="house-image" />
-          <div class="additionalInfo">
-            <p class="header-2">
-              {{ house.location.street }} {{ house.location.houseNumber
-              }}{{ house.location.houseNumberAddition }}
-            </p>
-            <p>€ {{ house.price.toLocaleString("de-DE") }}</p>
-            <p>{{ house.location.zip }} {{ house.location.city }}</p>
-            <div class="leftSide">
-              <p>{{ house.rooms.bedrooms }}</p>
-              <p>{{ house.rooms.bathrooms }}</p>
-              <p>{{ house.size }}</p>
+      <router-link :to="`/details/${house.id}`">
+        <div class="house-card background-2">
+          <div class="leftSide">
+            <img :src="house.image" alt="House image" class="house-image" />
+            <div class="additionalInfo">
+              <p class="header-2">
+                {{ house.location.street }} {{ house.location.houseNumber
+                }}{{ house.location.houseNumberAddition }}
+              </p>
+              <p>€ {{ house.price.toLocaleString("de-DE") }}</p>
+              <p>{{ house.location.zip }} {{ house.location.city }}</p>
+              <div class="leftSide">
+                <p>{{ house.rooms.bedrooms }}</p>
+                <p>{{ house.rooms.bathrooms }}</p>
+                <p>{{ house.size }}</p>
+              </div>
+              <!-- Add more properties as needed -->
             </div>
-            <!-- Add more properties as needed -->
           </div>
+          <div class="rightSide"></div>
         </div>
-        <div class="rightSide"></div>
-      </div>
+      </router-link>
     </div>
   </div>
   <div class="noHomesFoundContainer empty-state-message" v-else>

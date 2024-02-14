@@ -178,6 +178,12 @@ import Navbar from "./components/Navbar.vue";
 
 }
 
+.body-text {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
   .header-1 {
