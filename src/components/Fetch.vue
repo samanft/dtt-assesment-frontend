@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="houses && houses.length">
     <div v-for="(house, index) in houses" :key="index">
       <div class="house-card background-2">
         <div class="leftSide">
@@ -11,7 +11,7 @@
             </p>
             <p>€ {{ house.price.toLocaleString("de-DE") }}</p>
             <p>{{ house.location.zip }} {{ house.location.city }}</p>
-            <div class="roomInfo">
+            <div class="leftSide">
               <p>{{ house.rooms.bedrooms }}</p>
               <p>{{ house.rooms.bathrooms }}</p>
               <p>{{ house.size }}</p>
@@ -19,8 +19,19 @@
             <!-- Add more properties as needed -->
           </div>
         </div>
-        <div class="rightSide">test123</div>
+        <div class="rightSide"></div>
       </div>
+    </div>
+  </div>
+  <div class="noHomesFoundContainer empty-state-message" v-else>
+    <img
+      class="noHomesFound"
+      src="../assets/img_empty_houses@3x.png"
+      alt="No houses found"
+    />
+    <div>
+      <p>No results found.</p>
+      <p>Please try another keyword.</p>
     </div>
   </div>
 </template>
@@ -71,14 +82,14 @@ export default {
         });
       }
 
-      console.log(result)
+      console.log(result);
 
       if (props.selectedButton === "price" && houses.value) {
-        console.log("price")
+        console.log("price");
         // console.log(result.sort((a, b) => a.price - b.price));
         result = result.sort((a, b) => a.price - b.price);
       } else if (props.selectedButton === "size" && houses.value) {
-        console.log("size")
+        console.log("size");
         result = result.sort((a, b) => a.size - b.size);
       }
 
@@ -128,5 +139,22 @@ export default {
 
 .roomInfo {
   display: flex;
+}
+
+.noHomesFound {
+  width: 100%;
+  height: 100%;
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.noHomesFoundContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
 }
 </style>

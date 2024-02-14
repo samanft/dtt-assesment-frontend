@@ -65,4 +65,8 @@ input {
   padding: 10px 20px;
   border-radius: 5px;
 }
+
+.background-1 {
+  min-height: 100vh;
+}
 </style>
