@@ -1,10 +1,14 @@
 <template>
   <div class="background-1">
     <div class="container">
+      <a class="align-center">
+        <img id="back-arrow" src="../assets/ic_back_grey@3x.png" alt="Back arrow" />
+        <div class="back-button-label-desktop">Back to overview</div>
+      </a>
       <div class="flex">
         <div class="background-2">
           <img
-            class="house-image "
+            class="house-image"
             :src="house.image"
             :alt="house.location.street"
           />
@@ -21,11 +25,26 @@
                 {{ house.location.zip }} {{ house.location.city }}
               </p>
               <div class="icons">
-                <img class="iconImages" src="../assets/ic_bed@3x.png" width="15px" alt="Bedroom icon" />
+                <img
+                  class="iconImages"
+                  src="../assets/ic_bed@3x.png"
+                  width="15px"
+                  alt="Bedroom icon"
+                />
                 <p class="iconText">{{ house.rooms.bedrooms }}</p>
-                <img class="iconImages" src="../assets/ic_bath@3x.png" width="15px" alt="Bathroom icon" />
+                <img
+                  class="iconImages"
+                  src="../assets/ic_bath@3x.png"
+                  width="15px"
+                  alt="Bathroom icon"
+                />
                 <p class="iconText">{{ house.rooms.bathrooms }}</p>
-                <img class="iconImages" src="../assets/ic_size@3x.png" width="15px" alt="Size icon" />
+                <img
+                  class="iconImages"
+                  src="../assets/ic_size@3x.png"
+                  width="15px"
+                  alt="Size icon"
+                />
                 <p class="iconText">{{ house.size }}</p>
               </div>
               <!-- Add more properties as needed -->
@@ -85,7 +104,6 @@ export default {
 
     return {
       house,
-      
     };
   },
 };
@@ -121,5 +139,14 @@ export default {
 
 .iconText {
   margin-right: 5px;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+#back-arrow {
+  width: 20px;
 }
 </style>
