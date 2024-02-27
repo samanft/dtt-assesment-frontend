@@ -9,12 +9,28 @@
             :alt="house.location.street"
           />
           <div class="house-image">
-            <h1>{{ house.location.street }}</h1>
-            <p>{{ house.location.city }}</p>
-            <p>{{ house.location.zip }}</p>
-            <p>{{ house.price }}</p>
-            <p>{{ house.size }} m2</p>
-            <p>
+            <div class="additionalInfo">
+              <p class="no-margin header-2 primary-element">
+                {{ house.location.street }} {{ house.location.houseNumber
+                }}{{ house.location.houseNumberAddition }}
+              </p>
+              <p class="no-margin primary-element">
+                € {{ house.price.toLocaleString("de-DE") }}
+              </p>
+              <p class="no-margin secondary-element">
+                {{ house.location.zip }} {{ house.location.city }}
+              </p>
+              <div class="icons">
+                <img class="iconImages" src="../assets/ic_bed@3x.png" width="15px" alt="Bedroom icon" />
+                <p class="iconText">{{ house.rooms.bedrooms }}</p>
+                <img class="iconImages" src="../assets/ic_bath@3x.png" width="15px" alt="Bathroom icon" />
+                <p class="iconText">{{ house.rooms.bathrooms }}</p>
+                <img class="iconImages" src="../assets/ic_size@3x.png" width="15px" alt="Size icon" />
+                <p class="iconText">{{ house.size }}</p>
+              </div>
+              <!-- Add more properties as needed -->
+            </div>
+            <p class="body-text">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -77,7 +93,7 @@ export default {
 
 <style scoped>
 .house-image {
-  width: 300px;
+  width: 600px;
 }
 
 /* img, div {
@@ -87,10 +103,23 @@ export default {
 
 .flex {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .background-1 {
   min-height: 100vh;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.iconImages {
+  margin-right: 5px;
+}
+
+.iconText {
+  margin-right: 5px;
 }
 </style>
