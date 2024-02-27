@@ -3,7 +3,9 @@
     <div class="container">
       <div class="flex-1">
         <p class="header-1">Houses</p>
-        <button class="button primary-background buttons-and-tabs">Create new</button>
+        <button class="button primary-background buttons-and-tabs">
+          Create new
+        </button>
       </div>
       <div class="flex-1">
         <Search @updateSearchQuery="searchQuery = $event" />
@@ -12,28 +14,26 @@
           <SortingButtons @updateSelectedButton="selectedButton = $event" />
         </div>
       </div>
-      <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton"/>
-
+      <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" />
     </div>
-     
   </div>
 </template>
 
 <script>
-import Fetch from './Fetch.vue';
-import { ref } from 'vue';
-import Search from './Search.vue';
-import SortingButtons from './SortingButtons.vue';
+import Fetch from "./Fetch.vue";
+import { ref } from "vue";
+import Search from "./Search.vue";
+import SortingButtons from "./SortingButtons.vue";
 
 export default {
   components: {
     Fetch,
     Search,
-    SortingButtons
-},
+    SortingButtons,
+  },
   setup() {
-    const selectedButton = ref('price');
-    const searchQuery = ref('');
+    const selectedButton = ref("price");
+    const searchQuery = ref("");
 
     return {
       selectedButton,
@@ -43,8 +43,6 @@ export default {
 };
 </script>
 <style scoped>
-
-
 .flex-1 {
   display: flex;
   justify-content: space-between;
@@ -53,8 +51,8 @@ export default {
 }
 
 input {
-    border: none;
-    padding: 10px 20px;
+  border: none;
+  padding: 10px 20px;
 }
 
 .button {

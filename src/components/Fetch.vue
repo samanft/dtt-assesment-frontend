@@ -16,10 +16,13 @@
               <p class="no-margin secondary-element">
                 {{ house.location.zip }} {{ house.location.city }}
               </p>
-              <div class="leftSide">
-                <p>{{ house.rooms.bedrooms }}</p>
-                <p>{{ house.rooms.bathrooms }}</p>
-                <p>{{ house.size }}</p>
+              <div class="icons">
+                <img class="iconImages" src="../assets/ic_bed@3x.png" width="15px" alt="Bedroom icon" />
+                <p class="iconText">{{ house.rooms.bedrooms }}</p>
+                <img class="iconImages" src="../assets/ic_bath@3x.png" width="15px" alt="Bathroom icon" />
+                <p class="iconText">{{ house.rooms.bathrooms }}</p>
+                <img class="iconImages" src="../assets/ic_size@3x.png" width="15px" alt="Size icon" />
+                <p class="iconText">{{ house.size }}</p>
               </div>
               <!-- Add more properties as needed -->
             </div>
@@ -107,6 +110,14 @@ export default {
   border-radius: 10px;
 }
 
+.iconImages {
+  margin-right: 5px;
+}
+
+.iconText {
+  margin-right: 5px;
+}
+
 .house-card {
   display: flex;
   justify-content: space-between;
@@ -118,6 +129,11 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 10px;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
 }
 
 .rightSide {
