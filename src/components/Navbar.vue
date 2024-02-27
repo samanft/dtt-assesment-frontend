@@ -31,7 +31,7 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    max-width: 768px;
+    max-width: 1024px;
     padding-top: 20px;
     padding-bottom: 20px;
   }
