@@ -6,14 +6,14 @@
           <div class="leftSide">
             <img :src="house.image" alt="House image" class="house-image" />
             <div class="additionalInfo">
-              <p class="header-2 primary-element">
+              <p class="no-margin header-2 primary-element">
                 {{ house.location.street }} {{ house.location.houseNumber
                 }}{{ house.location.houseNumberAddition }}
               </p>
-              <p class="primary-element">
+              <p class="no-margin primary-element">
                 € {{ house.price.toLocaleString("de-DE") }}
               </p>
-              <p class="secondary-element">
+              <p class="no-margin secondary-element">
                 {{ house.location.zip }} {{ house.location.city }}
               </p>
               <div class="leftSide">
@@ -47,7 +47,7 @@ import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
-  props: ["searchQuery", "selectedButton"],
+  props: ["searchQuery", "selectedButton", "limit"],
   setup(props) {
     const store = useStore();
     const houses = ref(null);
@@ -81,6 +81,10 @@ export default {
         result = result.sort((a, b) => a.price - b.price);
       } else if (props.selectedButton === "size" && houses.value) {
         result = result.sort((a, b) => a.size - b.size);
+      }
+
+      if (result && props.limit) {
+        result = result.slice(0, props.limit);
       }
 
       return result;

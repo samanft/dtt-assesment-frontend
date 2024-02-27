@@ -43,10 +43,7 @@ export default {
 };
 </script>
 <style scoped>
-.container {
-  max-width: 768px;
-  margin: 0 auto;
-}
+
 
 .flex-1 {
   display: flex;

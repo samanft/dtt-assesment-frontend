@@ -5,6 +5,7 @@ import Houses from './components/Houses.vue'
 import About from './components/About.vue'
 import Details from './components/Details.vue'
 import store from './store' // import your Vuex store
+import './style.css'
 
 const routes = [
   { path: '/', component: Houses },
