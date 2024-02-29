@@ -1,10 +1,14 @@
 <template>
   <div class="background-1">
     <div class="container">
-      <a class="align-center">
-        <img id="back-arrow" src="../assets/ic_back_grey@3x.png" alt="Back arrow" />
+      <router-link to="/" class="align-center">
+        <img
+          id="back-arrow"
+          src="../assets/ic_back_grey@3x.png"
+          alt="Back arrow"
+        />
         <div class="back-button-label-desktop">Back to overview</div>
-      </a>
+      </router-link>
       <div class="flex">
         <div class="background-2">
           <img
@@ -13,17 +17,45 @@
             :alt="house.location.street"
           />
           <div class="house-image">
-            <div class="additionalInfo">
-              <p class="no-margin header-2 primary-element">
+            <div class="additionalInfo padding">
+              <p class="no-margin header-1 primary-element">
                 {{ house.location.street }} {{ house.location.houseNumber
                 }}{{ house.location.houseNumberAddition }}
               </p>
-              <p class="no-margin primary-element">
-                € {{ house.price.toLocaleString("de-DE") }}
-              </p>
-              <p class="no-margin secondary-element">
-                {{ house.location.zip }} {{ house.location.city }}
-              </p>
+              <div class="icons">
+                <img
+                  class="iconImages"
+                  src="../assets/ic_location@3x.png"
+                  width="15px"
+                  alt="Location icon"
+                  />
+                  <p class="iconText">{{ house.location.zip }} {{ house.location.city }}</p>
+              </div>
+              <div class="icons">
+                <img
+                  src="../assets/ic_price@3x.png"
+                  class="iconImages"
+                  width="15px"
+                />
+                <p class="no-margin primary-element iconText">
+                  {{ house.price.toLocaleString("de-DE") }}
+                </p>
+                <img
+                  class="iconImages"
+                  src="../assets/ic_size@3x.png"
+                  width="15px"
+                  alt="Size icon"
+                />
+                <p class="iconText">{{ house.size }}</p>
+                <img
+                  class="iconImages"
+                  src="../assets/ic_construction_date@3x.png"
+                  width="15px"
+                  alt="Size icon"
+                />
+                <p class="iconText">Built in {{ house.constructionYear }}</p>
+              </div>
+
               <div class="icons">
                 <img
                   class="iconImages"
@@ -41,15 +73,15 @@
                 <p class="iconText">{{ house.rooms.bathrooms }}</p>
                 <img
                   class="iconImages"
-                  src="../assets/ic_size@3x.png"
+                  src="../assets/ic_garage@3x.png"
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText">{{ house.size }}</p>
+                <p class="iconText">{{ house.hasGarage ? 'Yes' : 'No' }}</p>
               </div>
               <!-- Add more properties as needed -->
             </div>
-            <p class="body-text">
+            <p class="body-text padding">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -126,6 +158,7 @@ export default {
 
 .background-1 {
   min-height: 100vh;
+  padding-top: 20px;
 }
 
 .icons {
@@ -148,5 +181,10 @@ export default {
 
 #back-arrow {
   width: 20px;
+}
+
+.padding {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>

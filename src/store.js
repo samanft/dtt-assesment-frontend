@@ -22,6 +22,7 @@ export default createStore({
       }
 
       const houses = await response.json();
+      console.log(houses);
       commit('setHouses', houses);
     }
   },
