@@ -3,10 +3,10 @@
     <div class="container">
       <div class="flex-1">
         <p class="header-1">Houses</p>
-        <button class="button primary-background buttons-and-tabs">
-          <img id="plusIcon" src="../assets/ic_plus_white@3x.png" alt="Add house" />
-          Create new
-        </button>
+        <router-link to="/newlisting" class="button primary-background buttons-and-tabs">
+  <img id="plusIcon" src="../assets/ic_plus_white@3x.png" alt="Add house" />
+  Create new
+</router-link>
       </div>
       <div class="flex-1">
         <Search @updateSearchQuery="searchQuery = $event" />

@@ -4,13 +4,15 @@ import App from './App.vue'
 import Houses from './components/Houses.vue'
 import About from './components/About.vue'
 import Details from './components/Details.vue'
+import NewListing from './components/NewListing.vue' // Add this line
 import store from './store' // import your Vuex store
 import './style.css'
 
 const routes = [
   { path: '/', component: Houses },
   { path: '/about', component: About },
-  { path: '/details/:houseId', name: 'Details', component: Details, props: true }
+  { path: '/details/:houseId', name: 'Details', component: Details, props: true },
+  { path: '/newlisting', component: NewListing }, // Add this line
 ]
 
 const router = createRouter({
