@@ -1,7 +1,7 @@
 <template>
   <div class="background-image">
     <div class="container">
-      <form class="parent">
+      <form class="parent" @submit.prevent="onSubmit">
         <div class="div1">
           <label class="input-field-title" for="streetName">Street Name:</label>
           <input
@@ -164,7 +164,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 export default {
   setup() {
@@ -208,11 +208,46 @@ export default {
       return formFilled;
     });
 
+    // const fileInput = ref(null);
+
+    const onSubmit = async () => {
+      var myHeaders = new Headers();
+      myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
+
+      var formdata = new FormData();
+      formdata.append("price", house.value.price);
+      formdata.append("bedrooms", house.value.bedroom);
+      formdata.append("bathrooms", house.value.bathrooms);
+      formdata.append("size", house.value.size);
+      formdata.append("streetName", house.value.streetName);
+      formdata.append("houseNumber", house.value.houseNumber);
+      formdata.append("numberAddition", house.value.addition);
+      formdata.append("zip", house.value.postalCode);
+      formdata.append("city", house.value.city);
+      formdata.append("constructionYear", new Date(house.value.constructionDate).getFullYear());
+      formdata.append("hasGarage", house.value.garage === "Yes" ? "true" : "false");
+      formdata.append("description", house.value.description);
+    //   formdata.append("image", fileInput.value.files[0]);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+      };
+
+      fetch("https://api.intern.d-tt.nl/api/houses", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    };
+
     return {
       house,
       onFileChange,
       isFormFilled,
       onBlur,
+      onSubmit,
     };
   },
 };
