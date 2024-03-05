@@ -1,8 +1,20 @@
 <template>
+  <div class="modal" v-if="showModal">
+  <div class="modal-content" style="text-align: center;">
+    <h2>Delete listing</h2>
+    <p>Are you sure you want to delete this listing?</p>
+    <p>This action cannot be undone.</p>
+
+    <button @click="showModal = false" class="buttons-and-tabs" style="display: block; margin: auto;">Yes, delete</button>
+    <button @click="showModal = false" class="buttons-and-tabs" style="display: block; margin: auto;">Go back</button>
+
+  </div>
+</div>
   <div v-if="houses && houses.length">
     <div v-for="(house, index) in houses" :key="index">
-      <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
+      <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
         <div class="house-card background-2">
+          <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
           <div class="leftSide">
             <img :src="house.image" alt="House image" class="house-image" />
             <div class="additionalInfo">
@@ -17,19 +29,38 @@
                 {{ house.location.zip }} {{ house.location.city }}
               </p>
               <div class="icons">
-                <img class="iconImages" src="../assets/ic_bed@3x.png" width="15px" alt="Bedroom icon" />
+                <img
+                  class="iconImages"
+                  src="../assets/ic_bed@3x.png"
+                  width="15px"
+                  alt="Bedroom icon"
+                />
                 <p class="iconText">{{ house.rooms.bedrooms }}</p>
-                <img class="iconImages" src="../assets/ic_bath@3x.png" width="15px" alt="Bathroom icon" />
+                <img
+                  class="iconImages"
+                  src="../assets/ic_bath@3x.png"
+                  width="15px"
+                  alt="Bathroom icon"
+                />
                 <p class="iconText">{{ house.rooms.bathrooms }}</p>
-                <img class="iconImages" src="../assets/ic_size@3x.png" width="15px" alt="Size icon" />
+                <img
+                  class="iconImages"
+                  src="../assets/ic_size@3x.png"
+                  width="15px"
+                  alt="Size icon"
+                />
                 <p class="iconText">{{ house.size }}</p>
               </div>
               <!-- Add more properties as needed -->
             </div>
           </div>
-          <div class="rightSide"></div>
+          </router-link>
+          <div class="rightSide" v-if="house.madeByMe">
+          <img class="rightSideIcons" src="../assets/ic_edit@3x.png" width="20px">
+          <img class="rightSideIcons" src="../assets/ic_delete@3x.png" width="20px" @click="showModal = true">
+          </div>
         </div>
-      </router-link>
+      <!-- </router-link> -->
     </div>
   </div>
   <div class="noHomesFoundContainer empty-state-message" v-else>
@@ -56,7 +87,7 @@ export default {
     const houses = ref(null);
 
     onMounted(async () => {
-      await store.dispatch('fetchHouses');
+      await store.dispatch("fetchHouses");
       houses.value = store.getters.houses;
     });
 
@@ -95,6 +126,7 @@ export default {
 
     return {
       houses: sortedAndFilteredHouses,
+      showModal: ref(false),
     };
   },
 };
@@ -166,5 +198,46 @@ export default {
   height: 100%;
   width: 100%;
   text-align: center;
+}
+
+.rightSideIcons {
+  padding-right:10px;
+  padding-top: 10px;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
