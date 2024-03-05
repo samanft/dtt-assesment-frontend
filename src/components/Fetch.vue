@@ -1,16 +1,16 @@
 <template>
-  <div class="modal" v-if="showModal">
+  <div v-if="houses && houses.length">
+    <div class="modal" v-if="showModal">
   <div class="modal-content" style="text-align: center;">
     <h2>Delete listing</h2>
     <p>Are you sure you want to delete this listing?</p>
     <p>This action cannot be undone.</p>
 
-    <button @click="showModal = false" class="buttons-and-tabs" style="display: block; margin: auto;">Yes, delete</button>
+    <button @click="deleteHouse" class="buttons-and-tabs" style="display: block; margin: auto;">Yes, delete</button>
     <button @click="showModal = false" class="buttons-and-tabs" style="display: block; margin: auto;">Go back</button>
 
   </div>
 </div>
-  <div v-if="houses && houses.length">
     <div v-for="(house, index) in houses" :key="index">
       <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
         <div class="house-card background-2">
@@ -57,7 +57,7 @@
           </router-link>
           <div class="rightSide" v-if="house.madeByMe">
           <img class="rightSideIcons" src="../assets/ic_edit@3x.png" width="20px">
-          <img class="rightSideIcons" src="../assets/ic_delete@3x.png" width="20px" @click="showModal = true">
+          <img class="rightSideIcons" src="../assets/ic_delete@3x.png" width="20px" @click="showModal = true; prepareDelete(house.id)">
           </div>
         </div>
       <!-- </router-link> -->
@@ -85,6 +85,8 @@ export default {
   setup(props) {
     const store = useStore();
     const houses = ref(null);
+    const houseId = ref(null); // Add this line
+    const showModal = ref(false);
 
     onMounted(async () => {
       await store.dispatch("fetchHouses");
@@ -124,9 +126,35 @@ export default {
       return result;
     });
 
+    const prepareDelete = (id) => {
+      showModal.value = true;
+      houseId.value = id;
+    };
+
+    const deleteHouse = async () => {
+      var myHeaders = new Headers();
+      myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      await fetch(`https://api.intern.d-tt.nl/api/houses/${houseId.value}`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          console.log(result);
+          showModal.value = false;
+        })
+        .catch(error => console.log('error', error));
+    };
+
     return {
       houses: sortedAndFilteredHouses,
-      showModal: ref(false),
+      showModal,
+      deleteHouse,
+      prepareDelete // Add this line
     };
   },
 };
