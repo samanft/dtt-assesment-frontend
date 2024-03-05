@@ -184,17 +184,18 @@ export default {
       description: "",
     });
 
+    let file = null;
     const onFileChange = (e) => {
-      const file = e.target.files[0];
+      file = e.target.files[0];
       house.value.image = file.name; // Update house.image with the name of the selected file
     };
 
     const onBlur = (event) => {
       if (event.target.value === "") {
-        console.log('empty')
+        console.log("empty");
         event.target.style.border = "1px solid red";
       } else {
-        console.log('not empty')
+        console.log("not empty");
         event.target.style.border = "none"; // Reset to default color when there is a value
       }
     };
@@ -224,22 +225,57 @@ export default {
       formdata.append("numberAddition", house.value.addition);
       formdata.append("zip", house.value.postalCode);
       formdata.append("city", house.value.city);
-      formdata.append("constructionYear", new Date(house.value.constructionDate).getFullYear());
-      formdata.append("hasGarage", house.value.garage === "Yes" ? "true" : "false");
+      formdata.append(
+        "constructionYear",
+        new Date(house.value.constructionDate).getFullYear()
+      );
+      formdata.append(
+        "hasGarage",
+        house.value.garage === "Yes" ? "true" : "false"
+      );
       formdata.append("description", house.value.description);
-    //   formdata.append("image", fileInput.value.files[0]);
+      //   formdata.append("image", fileInput.value.files[0]);
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
         body: formdata,
-        redirect: 'follow'
+        redirect: "follow",
       };
 
       fetch("https://api.intern.d-tt.nl/api/houses", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          // Extract houseId from the result
+          const houseId = result.id; // Replace 'id' with the actual property name if it's different
+
+          // Set up the headers and form data for the second request
+          var myHeaders = new Headers();
+          myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
+
+          var formdata = new FormData();
+          formdata.append(
+            "image",
+            file,
+          );
+
+          var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+            redirect: "follow",
+          };
+
+          // Make the second fetch request
+          return fetch(
+            `https://api.intern.d-tt.nl/api/houses/${houseId}/upload`,
+            requestOptions
+          );
+        })
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
     };
 
     return {
