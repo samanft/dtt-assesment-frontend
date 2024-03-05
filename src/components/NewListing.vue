@@ -9,6 +9,7 @@
             id="streetName"
             v-model="house.streetName"
             type="text"
+            @blur="onBlur"
           />
         </div>
         <div class="div2">
@@ -20,6 +21,7 @@
             id="houseNumber"
             v-model="house.houseNumber"
             type="text"
+            @blur="onBlur"
           />
         </div>
         <div class="div3">
@@ -31,6 +33,7 @@
             id="addition"
             v-model="house.addition"
             type="text"
+            @blur="onBlur"
           />
         </div>
         <div class="div4">
@@ -40,6 +43,7 @@
             id="postalCode"
             v-model="house.postalCode"
             type="text"
+            @blur="onBlur"
           />
         </div>
         <div class="div5">
@@ -49,6 +53,7 @@
             id="city"
             v-model="house.city"
             type="text"
+            @blur="onBlur"
           />
         </div>
         <div class="div6">
@@ -56,7 +61,12 @@
             >Upload Picture (PNG or JPG)*</label
           >
           <label for="image">
-            <img src="../assets/ic_upload@3x.png" id="uploadIcon" height="100%" alt="Upload Image" />
+            <img
+              src="../assets/ic_upload@3x.png"
+              id="uploadIcon"
+              height="100%"
+              alt="Upload Image"
+            />
           </label>
           <input
             id="image"
@@ -64,6 +74,7 @@
             accept=".png, .jpg, .jpeg"
             @change="onFileChange"
             style="display: none"
+            @blur="onBlur"
           />
         </div>
         <div class="div7">
@@ -73,6 +84,7 @@
             id="price"
             v-model="house.price"
             type="number"
+            @blur="onBlur"
           />
         </div>
         <div class="div8">
@@ -82,16 +94,16 @@
             id="size"
             v-model="house.size"
             type="number"
+            @blur="onBlur"
           />
         </div>
         <div class="div9">
           <label class="input-field-title" for="garage">Garage:</label>
-          <input
-            placeholder="Select"
-            id="garage"
-            v-model="house.garage"
-            type="checkbox"
-          />
+          <select v-model="house.garage">
+            <option value="" selected disabled hidden>Choose here</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
         </div>
         <div class="div10">
           <label class="input-field-title" for="bedroom">Bedroom:</label>
@@ -100,6 +112,7 @@
             id="bedroom"
             v-model="house.bedroom"
             type="number"
+            @blur="onBlur"
           />
         </div>
         <div class="div11">
@@ -109,6 +122,7 @@
             id="bathrooms"
             v-model="house.bathrooms"
             type="number"
+            @blur="onBlur"
           />
         </div>
         <div class="div12">
@@ -119,6 +133,7 @@
             id="constructionDate"
             v-model="house.constructionDate"
             type="date"
+            @blur="onBlur"
           />
         </div>
         <div class="div13">
@@ -130,7 +145,18 @@
             placeholder="Enter description"
             id="description"
             v-model="house.description"
+            @blur="onBlur"
           />
+        </div>
+        <div class="div14">
+          <button
+            :disabled="!isFormFilled"
+            :class="{ transparent: !isFormFilled }"
+            class="buttons-and-tabs primary-background"
+            type="submit"
+          >
+            POST
+          </button>
         </div>
       </form>
     </div>
@@ -138,24 +164,55 @@
 </template>
 
 <script>
+import { ref, computed } from "vue";
+
 export default {
-  data() {
+  setup() {
+    const house = ref({
+      streetName: "",
+      houseNumber: "",
+      addition: "",
+      postalCode: "",
+      city: "",
+      image: "",
+      price: "",
+      size: "",
+      garage: "",
+      bedroom: "",
+      bathrooms: "",
+      constructionDate: "",
+      description: "",
+    });
+
+    const onFileChange = (e) => {
+      const file = e.target.files[0];
+      house.value.image = file.name; // Update house.image with the name of the selected file
+    };
+
+    const onBlur = (event) => {
+      if (event.target.value === "") {
+        console.log('empty')
+        event.target.style.border = "1px solid red";
+      } else {
+        console.log('not empty')
+        event.target.style.border = "none"; // Reset to default color when there is a value
+      }
+    };
+
+    const isFormFilled = computed(() => {
+      // Check if all fields in house are filled out
+      const formFilled = Object.values(house.value).every(
+        (value) => value !== ""
+      );
+      console.log(formFilled); // Log the result
+      return formFilled;
+    });
+
     return {
-      house: {
-        streetName: "",
-        houseNumber: "",
-        addition: "",
-        postalCode: "",
-        city: "",
-        image: "",
-        price: "",
-        size: "",
-        garage: false,
-        bedroom: "",
-        bathrooms: "",
-        constructionDate: "",
-        description: "",
-      },
+      house,
+      onFileChange,
+      isFormFilled,
+      onBlur,
     };
   },
 };
@@ -163,14 +220,20 @@ export default {
 
 <style scoped>
 input:not([type="submit"]),
-textarea {
+textarea,
+button,
+select {
   padding: 10px;
   border: none;
   border-radius: 5px;
   width: 100%;
+  resize: none;
 }
 
-input, #uploadIcon, textarea {
+input,
+#uploadIcon,
+textarea,
+select {
   margin-top: 5px;
 }
 
@@ -188,36 +251,73 @@ label {
 .parent {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-grid-template-rows: repeat(4, 1fr) 3fr repeat(4, 1fr) 3fr;
-  grid-gap: 10px;
+  grid-template-rows: repeat(4, 1fr) 2fr repeat(4, 1fr) 2fr 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+
+.div1 {
+  grid-area: 1 / 1 / 2 / 3;
+}
+.div2 {
+  grid-area: 2 / 1 / 3 / 2;
+}
+.div3 {
+  grid-area: 2 / 2 / 3 / 3;
+}
+.div4 {
+  grid-area: 3 / 1 / 4 / 3;
+}
+.div5 {
+  grid-area: 4 / 1 / 5 / 3;
+}
+.div6 {
+  grid-area: 5 / 1 / 6 / 3;
+}
+.div7 {
+  grid-area: 6 / 1 / 7 / 3;
+}
+.div8 {
+  grid-area: 7 / 1 / 8 / 2;
+}
+.div9 {
+  grid-area: 7 / 2 / 8 / 3;
+}
+.div10 {
+  grid-area: 8 / 1 / 9 / 2;
+}
+.div11 {
+  grid-area: 8 / 2 / 9 / 3;
+}
+.div12 {
+  grid-area: 9 / 1 / 10 / 3;
+}
+.div13 {
+  grid-area: 10 / 1 / 11 / 3;
+}
+.div14 {
+  grid-area: 11 / 2 / 12 / 3;
+}
+
+/* .buttons-and-tabs {
+  opacity: 0.5;
+} */
+
+.transparent {
+  opacity: 0.5;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.div1 { grid-area: 1 / 1 / 2 / 3; }
-.div2 { grid-area: 2 / 1 / 3 / 2; }
-.div3 { grid-area: 2 / 2 / 3 / 3; }
-.div4 { grid-area: 3 / 1 / 4 / 3; }
-.div5 { grid-area: 4 / 1 / 5 / 3; }
-.div6 { grid-area: 5 / 1 / 6 / 3; }
-.div7 { grid-area: 6 / 1 / 7 / 3; }
-.div8 { grid-area: 7 / 1 / 8 / 2; }
-.div9 { grid-area: 7 / 2 / 8 / 3; }
-.div10 { grid-area: 8 / 1 / 9 / 2; }
-.div11 { grid-area: 8 / 2 / 9 / 3; }
-.div12 { grid-area: 9 / 1 / 10 / 3; }
-.div13 { grid-area: 10 / 1 / 11 / 3; }
-
-
 form {
   width: 50%;
 }
 
 #uploadIcon {
-    cursor: pointer;
-    border: 2px dashed #4a4b4c;
-    padding: 60px;
+  cursor: pointer;
+  border: 2px dashed #4a4b4c;
+  padding: 10px;
 }
 </style>
