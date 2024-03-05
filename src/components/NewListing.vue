@@ -20,7 +20,7 @@
             placeholder="Enter the house number"
             id="houseNumber"
             v-model="house.houseNumber"
-            type="text"
+            type="number"
             @blur="onBlur"
           />
         </div>
