@@ -165,9 +165,18 @@
 
 <script>
 import { ref, computed, onMounted } from "vue";
+import { useStore } from 'vuex';
 
 export default {
-  setup() {
+  props: {
+    houseId: {
+      type: String,
+      default: null
+    }
+  },
+  setup(props) {
+    const store = useStore();
+
     const house = ref({
       streetName: "",
       houseNumber: "",
@@ -183,6 +192,30 @@ export default {
       constructionDate: "",
       description: "",
     });
+
+    onMounted(async () => {
+    if (props.houseId) {
+      console.log(props.houseId)
+      await store.dispatch('fetchHouseById', props.houseId);
+      const fetchedHouse = store.state.house;
+      console.log(fetchedHouse); // Log the fetched house object (for debugging purposes
+      house.value = {
+        streetName: fetchedHouse.location.street,
+        houseNumber: fetchedHouse.location.houseNumber,
+        addition: fetchedHouse.location.houseNumberAddition,
+        postalCode: fetchedHouse.location.zip,
+        city: fetchedHouse.location.city,
+        image: fetchedHouse.image,
+        price: fetchedHouse.price,
+        size: fetchedHouse.size,
+        garage: fetchedHouse.hasGarage ? "Yes" : "No",
+        bedroom: fetchedHouse.rooms.bedrooms,
+        bathrooms: fetchedHouse.rooms.bathrooms,
+        constructionDate: fetchedHouse.createdAt,
+        description: fetchedHouse.description,
+      };
+    }
+  });
 
     let file = null;
     const onFileChange = (e) => {
@@ -243,7 +276,7 @@ export default {
         redirect: "follow",
       };
 
-      fetch("https://api.intern.d-tt.nl/api/houses", requestOptions)
+      fetch(`https://api.intern.d-tt.nl/api/houses${props.houseId ? `/${props.houseId}` : ''}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           console.log(result);

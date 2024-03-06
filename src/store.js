@@ -8,6 +8,9 @@ export default createStore({
     setHouses(state, houses) {
       state.houses = houses
     },
+    setHouse(state, house) {
+      state.house = house; // Add a new state property for the individual house
+    },
     removeHouse(state, houseId) {
       state.houses = state.houses.filter(house => house.id !== houseId);
     }
@@ -45,7 +48,24 @@ export default createStore({
           commit('removeHouse', houseId);
         })
         .catch(error => console.log('error', error));
-    }
+    },
+    async fetchHouseById({ commit }, houseId) {
+      const response = await fetch(`https://api.intern.d-tt.nl/api/houses/${houseId}`, {
+        headers: {
+          "X-Api-Key": "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const house = await response.json();
+      commit('setHouse', house[0]); // Commit the mutation with the fetched house data
+      console.log(house);
+      return house;
+    },
+  
   },
   getters: {
     houses: state => state.houses

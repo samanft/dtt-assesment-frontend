@@ -1,20 +1,31 @@
 <template>
   <div v-if="houses && houses.length">
     <div class="modal" v-if="showModal">
-  <div class="modal-content" style="text-align: center;">
-    <h2>Delete listing</h2>
-    <p>Are you sure you want to delete this listing?</p>
-    <p>This action cannot be undone.</p>
+      <div class="modal-content" style="text-align: center">
+        <h2>Delete listing</h2>
+        <p>Are you sure you want to delete this listing?</p>
+        <p>This action cannot be undone.</p>
 
-    <button @click="deleteHouse" class="buttons-and-tabs" style="display: block; margin: auto;">Yes, delete</button>
-    <button @click="showModal = false" class="buttons-and-tabs" style="display: block; margin: auto;">Go back</button>
-
-  </div>
-</div>
+        <button
+          @click="deleteHouse"
+          class="buttons-and-tabs"
+          style="display: block; margin: auto"
+        >
+          Yes, delete
+        </button>
+        <button
+          @click="showModal = false"
+          class="buttons-and-tabs"
+          style="display: block; margin: auto"
+        >
+          Go back
+        </button>
+      </div>
+    </div>
     <div v-for="(house, index) in houses" :key="index">
       <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
-        <div class="house-card background-2">
-          <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
+      <div class="house-card background-2">
+        <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
           <div class="leftSide">
             <img :src="house.image" alt="House image" class="house-image" />
             <div class="additionalInfo">
@@ -54,12 +65,28 @@
               <!-- Add more properties as needed -->
             </div>
           </div>
+        </router-link>
+        <div class="rightSide" v-if="house.madeByMe">
+          <router-link
+            :to="{ name: 'newListing', params: { houseId: house.id } }"
+          >
+            <img
+              class="rightSideIcons"
+              src="../assets/ic_edit@3x.png"
+              width="20px"
+            />
           </router-link>
-          <div class="rightSide" v-if="house.madeByMe">
-          <img class="rightSideIcons" src="../assets/ic_edit@3x.png" width="20px">
-          <img class="rightSideIcons" src="../assets/ic_delete@3x.png" width="20px" @click="showModal = true; prepareDelete(house.id)">
-          </div>
+          <img
+            class="rightSideIcons"
+            src="../assets/ic_delete@3x.png"
+            width="20px"
+            @click="
+              showModal = true;
+              prepareDelete(house.id);
+            "
+          />
         </div>
+      </div>
       <!-- </router-link> -->
     </div>
   </div>
@@ -132,7 +159,7 @@ export default {
     };
 
     const deleteHouse = async () => {
-      await store.dispatch('deleteHouse', houseId.value);
+      await store.dispatch("deleteHouse", houseId.value);
       showModal.value = false;
     };
 
@@ -159,7 +186,7 @@ export default {
       houses: sortedAndFilteredHouses,
       showModal,
       deleteHouse,
-      prepareDelete // Add this line
+      prepareDelete, // Add this line
     };
   },
 };
@@ -234,7 +261,7 @@ export default {
 }
 
 .rightSideIcons {
-  padding-right:10px;
+  padding-right: 10px;
   padding-top: 10px;
 }
 
@@ -249,7 +276,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
