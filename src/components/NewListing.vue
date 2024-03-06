@@ -255,10 +255,7 @@ export default {
           myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
 
           var formdata = new FormData();
-          formdata.append(
-            "image",
-            file,
-          );
+          formdata.append("image", file);
 
           var requestOptions = {
             method: "POST",

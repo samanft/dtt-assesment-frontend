@@ -132,23 +132,28 @@ export default {
     };
 
     const deleteHouse = async () => {
-      var myHeaders = new Headers();
-      myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
-
-      var requestOptions = {
-        method: 'DELETE',
-        headers: myHeaders,
-        redirect: 'follow'
-      };
-
-      await fetch(`https://api.intern.d-tt.nl/api/houses/${houseId.value}`, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          console.log(result);
-          showModal.value = false;
-        })
-        .catch(error => console.log('error', error));
+      await store.dispatch('deleteHouse', houseId.value);
+      showModal.value = false;
     };
+
+    // const deleteHouse = async () => {
+    //   var myHeaders = new Headers();
+    //   myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
+
+    //   var requestOptions = {
+    //     method: 'DELETE',
+    //     headers: myHeaders,
+    //     redirect: 'follow'
+    //   };
+
+    //   await fetch(`https://api.intern.d-tt.nl/api/houses/${houseId.value}`, requestOptions)
+    //     .then(response => response.text())
+    //     .then(result => {
+    //       console.log(result);
+    //       showModal.value = false;
+    //     })
+    //     .catch(error => console.log('error', error));
+    // };
 
     return {
       houses: sortedAndFilteredHouses,

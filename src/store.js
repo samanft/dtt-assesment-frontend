@@ -7,6 +7,9 @@ export default createStore({
   mutations: {
     setHouses(state, houses) {
       state.houses = houses
+    },
+    removeHouse(state, houseId) {
+      state.houses = state.houses.filter(house => house.id !== houseId);
     }
   },
   actions: {
@@ -24,6 +27,24 @@ export default createStore({
       const houses = await response.json();
       console.log(houses);
       commit('setHouses', houses);
+    },
+    async deleteHouse({ commit }, houseId) {
+      var myHeaders = new Headers();
+      myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
+  
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+  
+      await fetch(`https://api.intern.d-tt.nl/api/houses/${houseId}`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          console.log(result);
+          commit('removeHouse', houseId);
+        })
+        .catch(error => console.log('error', error));
     }
   },
   getters: {
