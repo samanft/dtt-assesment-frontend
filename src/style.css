@@ -24,6 +24,9 @@
 
 .primary-background {
   background-color: #eb5440;
+}
+
+.text-white {
   color: white;
 }
 
@@ -45,7 +48,6 @@
 
 .tertiary-1 {
   background-color: #e8e8e8;
-  color: white;
 }
 
 .tertiary-2 {
@@ -83,6 +85,7 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   font-size: 18px;
+  color: white;
 }
 
 .back-button-label-desktop {
@@ -137,6 +140,7 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 600; /* semibold */
   font-size: 16px;
+  color: black;
 }
 
 .input-field-title {

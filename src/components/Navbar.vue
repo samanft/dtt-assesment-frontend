@@ -2,8 +2,8 @@
     <nav class="background-2">
       <ul>
         <li><img width="100px" :src="logo"></li>
-        <li><router-link class="secondary" active-class="desktop-header-active-menu" inactive-class="desktop-header-inactive-menu" to="/">Houses</router-link></li>
-        <li><router-link class="secondary" active-class="desktop-header-active-menu" inactive-class="desktop-header-inactive-menu" to="/about">About</router-link></li>
+        <li><router-link class="secondary primary-element" active-class="desktop-header-active-menu" inactive-class="desktop-header-inactive-menu" to="/">Houses</router-link></li>
+        <li><router-link class="secondary primary-element" active-class="desktop-header-active-menu" inactive-class="desktop-header-inactive-menu" to="/about">About</router-link></li>
       </ul>
     </nav>
   </template>

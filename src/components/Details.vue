@@ -94,7 +94,7 @@
         </div>
 
         <div class="full-width">
-          <h2 class="header-2">Recommended for you</h2>
+          <h2 class="header-2 no-margin" style="margin-bottom:.67em;">Recommended for you</h2>
           <Fetch :limit="3" />
         </div>
       </div>

@@ -8,17 +8,17 @@
 
         <button
           @click="deleteHouse"
-          class="buttons-and-tabs"
-          style="display: block; margin: auto"
+          class="buttons-and-tabs primary-background"
+          style="display: block; margin: auto; border: none; padding: 10px 20px; border-radius: 5px;"
         >
-          Yes, delete
+          YES, DELETE
         </button>
         <button
           @click="showModal = false"
-          class="buttons-and-tabs"
-          style="display: block; margin: auto"
+          class="buttons-and-tabs secondary-background"
+          style="display: block; margin: auto; border: none; padding: 10px 20px; border-radius: 5px;"
         >
-          Go back
+          GO BACK
         </button>
       </div>
     </div>
@@ -46,21 +46,21 @@
                   width="15px"
                   alt="Bedroom icon"
                 />
-                <p class="iconText">{{ house.rooms.bedrooms }}</p>
+                <p class="iconText primary-element">{{ house.rooms.bedrooms }}</p>
                 <img
                   class="iconImages"
                   src="../assets/ic_bath@3x.png"
                   width="15px"
                   alt="Bathroom icon"
                 />
-                <p class="iconText">{{ house.rooms.bathrooms }}</p>
+                <p class="iconText primary-element">{{ house.rooms.bathrooms }}</p>
                 <img
                   class="iconImages"
                   src="../assets/ic_size@3x.png"
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText">{{ house.size }}</p>
+                <p class="iconText primary-element">{{ house.size }}</p>
               </div>
               <!-- Add more properties as needed -->
             </div>

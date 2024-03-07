@@ -346,7 +346,7 @@ label {
   background-image: url("../assets/img_background@3x.png");
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 100%;
 }
 
 .parent {
