@@ -1,11 +1,12 @@
 <script setup>
 import Navbar from "./components/Navbar.vue";
+import MobileNav from "./components/MobileNav.vue";
 </script>
 
 <template>
-  <Navbar />
-      <router-view />
-
+  <Navbar id="navbar" />
+      <router-view id="router" />
+<MobileNav id="mobileNav" />
   <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
@@ -35,5 +36,28 @@ import Navbar from "./components/Navbar.vue";
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+#router {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
 
+#navbar {
+  display: none;
+}
+
+#mobileNav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  #navbar {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+   #mobileNav {
+    display: flex;
+  }
+}
 </style>

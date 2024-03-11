@@ -3,6 +3,7 @@
     type="search"
     v-model="searchQuery"
     class="tertiary-1 secondary empty-state-message"
+    id="houseSearch"
     placeholder="Search for a house"
     :style="{ backgroundImage: `url(${searchIcon})` }"
   />
@@ -35,5 +36,11 @@ input {
   background-position: 15px center; /* Adjust the first value to move the image further from the left edge */
   background-size: 20px;
   text-indent: 30px; /* Add indentation to the text */
+}
+
+@media (max-width: 768px) {
+  #houseSearch {
+    margin-bottom: 20px;
+  }
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div class="background-image">
     <div class="container">
+      <BackButton />
+      <h1 class="header-1 no-margin" id="listing-header">{{ headerText }}</h1>
       <form class="parent" @submit.prevent="onSubmit">
         <div class="div1">
           <label class="input-field-title" for="streetName">Street Name:</label>
@@ -165,14 +167,29 @@
 
 <script>
 import { ref, computed, onMounted } from "vue";
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
+import router from "../main";
+import BackButton from "./BackButton.vue";
 
 export default {
   props: {
     houseId: {
       type: String,
-      default: null
+      default: null,
+    },
+    isEditing: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    headerText() {
+      return this.isEditing ? 'Edit listing' : 'New listing';
     }
+  },
+  name: "NewListing",
+  components: {
+    BackButton,
   },
   setup(props) {
     const store = useStore();
@@ -194,28 +211,28 @@ export default {
     });
 
     onMounted(async () => {
-    if (props.houseId) {
-      console.log(props.houseId)
-      await store.dispatch('fetchHouseById', props.houseId);
-      const fetchedHouse = store.state.house;
-      console.log(fetchedHouse); // Log the fetched house object (for debugging purposes
-      house.value = {
-        streetName: fetchedHouse.location.street,
-        houseNumber: fetchedHouse.location.houseNumber,
-        addition: fetchedHouse.location.houseNumberAddition,
-        postalCode: fetchedHouse.location.zip,
-        city: fetchedHouse.location.city,
-        image: fetchedHouse.image,
-        price: fetchedHouse.price,
-        size: fetchedHouse.size,
-        garage: fetchedHouse.hasGarage ? "Yes" : "No",
-        bedroom: fetchedHouse.rooms.bedrooms,
-        bathrooms: fetchedHouse.rooms.bathrooms,
-        constructionDate: fetchedHouse.createdAt,
-        description: fetchedHouse.description,
-      };
-    }
-  });
+      if (props.houseId) {
+        console.log(props.houseId);
+        await store.dispatch("fetchHouseById", props.houseId);
+        const fetchedHouse = store.state.house;
+        console.log(fetchedHouse); // Log the fetched house object (for debugging purposes
+        house.value = {
+          streetName: fetchedHouse.location.street,
+          houseNumber: fetchedHouse.location.houseNumber,
+          addition: fetchedHouse.location.houseNumberAddition,
+          postalCode: fetchedHouse.location.zip,
+          city: fetchedHouse.location.city,
+          image: fetchedHouse.image,
+          price: fetchedHouse.price,
+          size: fetchedHouse.size,
+          garage: fetchedHouse.hasGarage ? "Yes" : "No",
+          bedroom: fetchedHouse.rooms.bedrooms,
+          bathrooms: fetchedHouse.rooms.bathrooms,
+          constructionDate: fetchedHouse.createdAt,
+          description: fetchedHouse.description,
+        };
+      }
+    });
 
     let file = null;
     const onFileChange = (e) => {
@@ -276,7 +293,12 @@ export default {
         redirect: "follow",
       };
 
-      fetch(`https://api.intern.d-tt.nl/api/houses${props.houseId ? `/${props.houseId}` : ''}`, requestOptions)
+      fetch(
+        `https://api.intern.d-tt.nl/api/houses${
+          props.houseId ? `/${props.houseId}` : ""
+        }`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((result) => {
           console.log(result);
@@ -306,6 +328,8 @@ export default {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
+
+      router.push("/");
     };
 
     return {
@@ -329,6 +353,20 @@ select {
   border-radius: 5px;
   width: 100%;
   resize: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+  form {
+    width: 90%;
+  }
+}
+
+#listing-header {
+  margin-bottom: 40px;
 }
 
 input,
@@ -400,6 +438,11 @@ label {
   grid-area: 11 / 2 / 12 / 3;
 }
 
+.container {
+  align-items: center;
+  flex-direction: column;
+}
+
 /* .buttons-and-tabs {
   opacity: 0.5;
 } */
@@ -412,8 +455,10 @@ label {
   box-sizing: border-box;
 }
 
-form {
-  width: 50%;
+@media (min-width: 768px) {
+  form {
+    width: 50%;
+  }
 }
 
 #uploadIcon {

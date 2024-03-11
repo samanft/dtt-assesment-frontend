@@ -20,4 +20,6 @@ const router = createRouter({
   routes
 })
 
+export default router;
+
 createApp(App).use(router).use(store).mount('#app') // use your Vuex store here

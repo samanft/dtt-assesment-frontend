@@ -2,21 +2,21 @@
   <div v-if="houses && houses.length">
     <div class="modal" v-if="showModal">
       <div class="modal-content" style="text-align: center">
-        <h2>Delete listing</h2>
-        <p>Are you sure you want to delete this listing?</p>
-        <p>This action cannot be undone.</p>
+        <h2 class="header-2">Delete listing</h2>
+        <p class="body-text no-margin">Are you sure you want to delete this listing?</p>
+        <p class="body-text no-margin">This action cannot be undone.</p>
 
         <button
           @click="deleteHouse"
           class="buttons-and-tabs primary-background"
-          style="display: block; margin: auto; border: none; padding: 10px 20px; border-radius: 5px;"
+          style="display: block; margin: auto; width: 50%; border: none; padding: 10px 20px; border-radius: 5px;"
         >
           YES, DELETE
         </button>
         <button
           @click="showModal = false"
           class="buttons-and-tabs secondary-background"
-          style="display: block; margin: auto; border: none; padding: 10px 20px; border-radius: 5px;"
+          style="display: block; margin: auto; width: 50%; border: none; padding: 10px 20px; border-radius: 5px;"
         >
           GO BACK
         </button>
@@ -24,7 +24,7 @@
     </div>
     <div v-for="(house, index) in houses" :key="index">
       <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
-      <div class="house-card background-2">
+      <div class="house-card background-2 shadow-effect">
         <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
           <div class="leftSide">
             <img :src="house.image" alt="House image" class="house-image" />
@@ -33,34 +33,34 @@
                 {{ house.location.street }} {{ house.location.houseNumber
                 }}{{ house.location.houseNumberAddition }}
               </p>
-              <p class="no-margin primary-element">
+              <p class="no-margin listing-information primary-element">
                 € {{ house.price.toLocaleString("de-DE") }}
               </p>
-              <p class="no-margin secondary-element">
+              <p class="no-margin listing-information secondary-element">
                 {{ house.location.zip }} {{ house.location.city }}
               </p>
-              <div class="icons">
+              <div class="icons" style="margin-top:10px;">
                 <img
                   class="iconImages"
                   src="../assets/ic_bed@3x.png"
                   width="15px"
                   alt="Bedroom icon"
                 />
-                <p class="iconText primary-element">{{ house.rooms.bedrooms }}</p>
+                <p class="iconText no-margin listing-information primary-element">{{ house.rooms.bedrooms }}</p>
                 <img
                   class="iconImages"
                   src="../assets/ic_bath@3x.png"
                   width="15px"
                   alt="Bathroom icon"
                 />
-                <p class="iconText primary-element">{{ house.rooms.bathrooms }}</p>
+                <p class="iconText no-margin listing-information primary-element">{{ house.rooms.bathrooms }}</p>
                 <img
                   class="iconImages"
                   src="../assets/ic_size@3x.png"
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText primary-element">{{ house.size }}</p>
+                <p class="iconText no-margin listing-information primary-element">{{ house.size }}</p>
               </div>
               <!-- Add more properties as needed -->
             </div>
@@ -68,7 +68,7 @@
         </router-link>
         <div class="rightSide" v-if="house.madeByMe">
           <router-link
-            :to="{ name: 'newListing', params: { houseId: house.id } }"
+            :to="{ name: 'newListing', params: { houseId: house.id, isEditing: true} }"
           >
             <img
               class="rightSideIcons"
@@ -160,6 +160,8 @@ export default {
 
     const deleteHouse = async () => {
       await store.dispatch("deleteHouse", houseId.value);
+      await store.dispatch("fetchHouses"); // Add this line
+      houses.value = store.getters.houses; // Add this line
       showModal.value = false;
     };
 
@@ -196,10 +198,12 @@ export default {
 .house-image {
   width: 100%;
   height: 100%;
-  max-width: 100px;
-  max-height: 100px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .iconImages {
@@ -262,7 +266,13 @@ export default {
 
 .rightSideIcons {
   padding-right: 10px;
-  padding-top: 10px;
+  padding-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .rightSideIcons {
+    width: 15px;
+  }
 }
 
 .modal {

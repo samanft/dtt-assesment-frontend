@@ -1,14 +1,7 @@
 <template>
   <div class="background-1">
     <div class="container">
-      <router-link to="/" class="align-center">
-        <img
-          id="back-arrow"
-          src="../assets/ic_back_grey@3x.png"
-          alt="Back arrow"
-        />
-        <div class="back-button-label-desktop">Back to overview</div>
-      </router-link>
+      <BackButton />
       <div class="flex">
         <div class="background-2">
           <img
@@ -16,20 +9,39 @@
             :src="house.image"
             :alt="house.location.street"
           />
-          <div class="house-image">
+          <div class="house-info">
             <div class="additionalInfo padding">
-              <p class="no-margin header-1 primary-element">
-                {{ house.location.street }} {{ house.location.houseNumber
-                }}{{ house.location.houseNumberAddition }}
-              </p>
+              <div class="flex-container">
+                <p class="no-margin header-1 primary-element" id="house-title">
+                  {{ house.location.street }} {{ house.location.houseNumber
+                  }}{{ house.location.houseNumberAddition }}
+                </p>
+                <div>
+                  <div v-if="house.madeByMe" id="main-house-icons">
+                    <img
+                      src="../assets/ic_edit@3x.png"
+                      width="20px"
+                      alt="Edit icon"
+                      class="iconImages"
+                    />
+                    <img
+                      src="../assets/ic_delete@3x.png"
+                      width="20px"
+                      alt="Delete icon"
+                    />
+                  </div>
+                </div>
+              </div>
               <div class="icons">
                 <img
                   class="iconImages"
                   src="../assets/ic_location@3x.png"
                   width="15px"
                   alt="Location icon"
-                  />
-                  <p class="iconText">{{ house.location.zip }} {{ house.location.city }}</p>
+                />
+                <p class="iconText">
+                  {{ house.location.zip }} {{ house.location.city }}
+                </p>
               </div>
               <div class="icons">
                 <img
@@ -77,7 +89,7 @@
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText">{{ house.hasGarage ? 'Yes' : 'No' }}</p>
+                <p class="iconText">{{ house.hasGarage ? "Yes" : "No" }}</p>
               </div>
               <!-- Add more properties as needed -->
             </div>
@@ -93,8 +105,10 @@
           </div>
         </div>
 
-        <div class="full-width">
-          <h2 class="header-2 no-margin" style="margin-bottom:.67em;">Recommended for you</h2>
+        <div id="recommendations">
+          <h2 class="header-2 no-margin" id="recommendationsHeader">
+            Recommended for you
+          </h2>
           <Fetch :limit="3" />
         </div>
       </div>
@@ -118,11 +132,13 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import Fetch from "./Fetch.vue";
+import BackButton from "./BackButton.vue";
 
 export default {
   props: ["houseId"],
   components: {
     Fetch,
+    BackButton,
   },
   setup(props) {
     const store = useStore();
@@ -146,6 +162,51 @@ export default {
   width: 600px;
 }
 
+@media (max-width: 768px) {
+  #main-house-icons {
+    z-index: 1;
+    position: absolute;
+    top: 40px;
+    right: 5%;  
+  }
+}
+
+#recommendationsHeader {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  #recommendationsHeader {
+    margin-top: 15px;
+  }
+  #recommendations {
+    width: 90%;
+  }
+}
+
+.house-info {
+  width: 600px;
+}
+
+.flex-container {
+  display: flex;
+  align-items: baseline; /* optional, to align items vertically in the center */
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .house-image {
+    width: 100%;
+  }
+  .house-info {
+    width: 100%;
+  }
+}
+
+#house-title {
+  margin-top: 15px;
+}
+
 /* img, div {
   margin: 0;
   padding: 0;
@@ -154,10 +215,17 @@ export default {
 .flex {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .flex {
+    justify-content: center;
+  }
 }
 
 .background-1 {
-  min-height: 100vh;
+  min-height: 100%;
   padding-top: 20px;
 }
 
@@ -167,24 +235,21 @@ export default {
 }
 
 .iconImages {
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .iconText {
   margin-right: 5px;
 }
 
-.align-center {
-  display: flex;
-  align-items: center;
-}
-
-#back-arrow {
-  width: 20px;
-}
-
 .padding {
   padding-left: 20px;
   padding-right: 20px;
+}
+
+@media (max-width: 768px) {
+  #router {
+    padding-top: 0;
+  }
 }
 </style>

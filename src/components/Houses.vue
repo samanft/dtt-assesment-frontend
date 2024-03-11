@@ -2,13 +2,30 @@
   <div class="background-1">
     <div class="container">
       <div class="flex-1">
-        <p class="header-1">Houses</p>
-        <router-link to="/newlisting" class="button primary-background buttons-and-tabs">
-  <img id="plusIcon" src="../assets/ic_plus_white@3x.png" alt="Add house" />
-  Create new
-</router-link>
+        <h1 class="header-1 no-margin" id="housesHeader">Houses</h1>
+        <router-link
+          :to="{ path: '/newlisting'}"
+          class="button primary-background buttons-and-tabs"
+          id="createNewButtonDesktop"
+        >
+          <img
+            id="plusIcon"
+            src="../assets/ic_plus_white@3x.png"
+            alt="Add house"
+          />
+          Create new
+        </router-link>
+
+        <router-link to="/newlisting" id="createNewButtonMobile">
+          <img
+            id="plusIconMobile"
+            src="../assets/ic_plus_grey@3x.png"
+            width="30px"
+            alt="Add house"
+          />
+        </router-link>
       </div>
-      <div class="flex-1">
+      <div class="flex-2">
         <Search @updateSearchQuery="searchQuery = $event" />
 
         <div>
@@ -48,7 +65,20 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 20px;
+}
+
+.flex-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .flex-2 {
+    flex-direction: column;
+  }
 }
 
 input {
@@ -71,5 +101,28 @@ input {
 #plusIcon {
   width: 20px;
   margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+  #createNewButtonDesktop {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  #createNewButtonMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  #housesHeader {
+    margin: auto;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
 }
 </style>
