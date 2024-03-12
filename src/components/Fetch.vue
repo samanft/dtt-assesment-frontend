@@ -144,6 +144,16 @@ export default {
         result = result.sort((a, b) => a.price - b.price);
       } else if (props.selectedButton === "size" && houses.value) {
         result = result.sort((a, b) => a.size - b.size);
+      } else if (props.selectedButton === "alphabetical" && houses.value) {
+        result = result.sort((a, b) => {
+          if (a.location.street < b.location.street) {
+            return -1;
+          }
+          if (a.location.street > b.location.street) {
+            return 1;
+          }
+          return 0;
+        });
       }
 
       if (result && props.limit) {

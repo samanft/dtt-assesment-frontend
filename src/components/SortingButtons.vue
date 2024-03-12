@@ -10,6 +10,16 @@
     Price
   </button>
   <button
+  class="buttons-and-tabs middleButton"
+  :class="{
+    'primary-background': selectedButton === 'alphabetical',
+    'tertiary-2': selectedButton !== 'alphabetical',
+  }"
+  @click="updateSelectedButton('alphabetical')"
+  >
+  Alphabetical
+  </button>
+  <button
     class="buttons-and-tabs rightButton"
     :class="{
       'primary-background': selectedButton === 'size',
@@ -55,5 +65,13 @@ export default {
   padding: 10px 20px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.middleButton {
+  border-top: none;
+  border-bottom: none;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  padding: 10px 20px;
 }
 </style>
