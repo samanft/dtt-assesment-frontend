@@ -184,8 +184,8 @@ export default {
   },
   computed: {
     headerText() {
-      return this.isEditing ? 'Edit listing' : 'New listing';
-    }
+      return this.isEditing ? "Edit listing" : "New listing";
+    },
   },
   name: "NewListing",
   components: {
@@ -238,6 +238,7 @@ export default {
     const onFileChange = (e) => {
       file = e.target.files[0];
       house.value.image = file.name; // Update house.image with the name of the selected file
+      console.log(file); // Log the file object (for debugging purposes)
     };
 
     const onBlur = (event) => {
@@ -293,18 +294,28 @@ export default {
         redirect: "follow",
       };
 
-      fetch(
+      console.log("houseId:", props.houseId);
+      console.log(
+        "URL:",
         `https://api.intern.d-tt.nl/api/houses${
           props.houseId ? `/${props.houseId}` : ""
-        }`,
-        requestOptions
-      )
-        .then((response) => response.json())
+        }`
+      );
+
+      fetch(`https://api.intern.d-tt.nl/api/houses${props.houseId ? `/${props.houseId}` : ""}`, requestOptions)
+      .then((response) => {
+  console.log(response);
+  if (props.houseId) {
+    return response.text();
+  } else {
+    return response.json();
+  }
+})
         .then((result) => {
           console.log(result);
           // Extract houseId from the result
-          const houseId = result.id; // Replace 'id' with the actual property name if it's different
-
+          const houseId = result.id ? result.id : props.houseId; // Replace 'id' with the actual property name if it's different
+          console.log(houseId); // Log the houseId (for debugging purposes)
           // Set up the headers and form data for the second request
           var myHeaders = new Headers();
           myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
@@ -325,7 +336,10 @@ export default {
             requestOptions
           );
         })
-        .then((response) => response.text())
+        .then((response) => {
+          console.log(response);
+          return response.text();
+        })
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
 
