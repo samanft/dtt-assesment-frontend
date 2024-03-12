@@ -1,27 +1,10 @@
 <template>
   <div v-if="houses && houses.length">
-    <div class="modal" v-if="showModal">
-      <div class="modal-content" style="text-align: center">
-        <h2 class="header-2">Delete listing</h2>
-        <p class="body-text no-margin">Are you sure you want to delete this listing?</p>
-        <p class="body-text no-margin">This action cannot be undone.</p>
-
-        <button
-          @click="deleteHouse"
-          class="buttons-and-tabs primary-background"
-          style="display: block; margin: auto; width: 50%; border: none; padding: 10px 20px; border-radius: 5px;"
-        >
-          YES, DELETE
-        </button>
-        <button
-          @click="showModal = false"
-          class="buttons-and-tabs secondary-background"
-          style="display: block; margin: auto; width: 50%; border: none; padding: 10px 20px; border-radius: 5px;"
-        >
-          GO BACK
-        </button>
-      </div>
-    </div>
+    <Modal
+      v-if="showModal"
+      @delete-house="deleteHouse"
+      @close-modal="showModal = false"
+    />
     <div v-for="(house, index) in houses" :key="index">
       <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
       <div class="house-card background-2 shadow-effect">
@@ -39,28 +22,40 @@
               <p class="no-margin listing-information secondary-element">
                 {{ house.location.zip }} {{ house.location.city }}
               </p>
-              <div class="icons" style="margin-top:10px;">
+              <div class="icons" style="margin-top: 10px">
                 <img
                   class="iconImages"
                   src="../assets/ic_bed@3x.png"
                   width="15px"
                   alt="Bedroom icon"
                 />
-                <p class="iconText no-margin listing-information primary-element">{{ house.rooms.bedrooms }}</p>
+                <p
+                  class="iconText no-margin listing-information primary-element"
+                >
+                  {{ house.rooms.bedrooms }}
+                </p>
                 <img
                   class="iconImages"
                   src="../assets/ic_bath@3x.png"
                   width="15px"
                   alt="Bathroom icon"
                 />
-                <p class="iconText no-margin listing-information primary-element">{{ house.rooms.bathrooms }}</p>
+                <p
+                  class="iconText no-margin listing-information primary-element"
+                >
+                  {{ house.rooms.bathrooms }}
+                </p>
                 <img
                   class="iconImages"
                   src="../assets/ic_size@3x.png"
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText no-margin listing-information primary-element">{{ house.size }}</p>
+                <p
+                  class="iconText no-margin listing-information primary-element"
+                >
+                  {{ house.size }}
+                </p>
               </div>
               <!-- Add more properties as needed -->
             </div>
@@ -68,7 +63,10 @@
         </router-link>
         <div class="rightSide" v-if="house.madeByMe">
           <router-link
-            :to="{ name: 'newListing', params: { houseId: house.id, isEditing: true} }"
+            :to="{
+              name: 'newListing',
+              params: { houseId: house.id, isEditing: true },
+            }"
           >
             <img
               class="rightSideIcons"
@@ -106,8 +104,12 @@
 <script>
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
+import Modal from "./Modal.vue";
 
 export default {
+  components: {
+    Modal,
+  },
   props: ["searchQuery", "selectedButton", "limit"],
   setup(props) {
     const store = useStore();
@@ -283,41 +285,5 @@ export default {
   .rightSideIcons {
     width: 15px;
   }
-}
-
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
 }
 </style>
