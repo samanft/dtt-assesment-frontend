@@ -35,7 +35,6 @@
             id="addition"
             v-model="house.addition"
             type="text"
-            @blur="onBlur"
           />
         </div>
         <div class="div4">
@@ -252,8 +251,11 @@ export default {
     };
 
     const isFormFilled = computed(() => {
+      let validationHouse = { ...house.value };
+      delete validationHouse.addition; // Making addition optional by removing it from validation
+
       // Check if all fields in house are filled out
-      const formFilled = Object.values(house.value).every(
+      const formFilled = Object.values(validationHouse).every(
         (value) => value !== ""
       );
       console.log(formFilled); // Log the result
@@ -302,15 +304,20 @@ export default {
         }`
       );
 
-      fetch(`https://api.intern.d-tt.nl/api/houses${props.houseId ? `/${props.houseId}` : ""}`, requestOptions)
-      .then((response) => {
-  console.log(response);
-  if (props.houseId) {
-    return response.text();
-  } else {
-    return response.json();
-  }
-})
+      fetch(
+        `https://api.intern.d-tt.nl/api/houses${
+          props.houseId ? `/${props.houseId}` : ""
+        }`,
+        requestOptions
+      )
+        .then((response) => {
+          console.log(response);
+          if (props.houseId) {
+            return response.text();
+          } else {
+            return response.json();
+          }
+        })
         .then((result) => {
           console.log(result);
           // Extract houseId from the result
