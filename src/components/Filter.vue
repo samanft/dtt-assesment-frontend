@@ -3,16 +3,16 @@
       <div class="form_control">
             <div class="form_control_container">
                 <div class="empty-state-message">Min price</div>
-                <input class="__input tertiary-1" type="number" v-model="fromSliderValue" @input="syncFromInputWithSlider" min="0" max="100"/>
+                <input class="slider-value-input tertiary-1" type="number" v-model="fromSliderValue" @input="syncFromInputWithSlider" min="0" max="10000000"/>
             </div>
             <div class="form_control_container">
                 <div class="empty-state-message">Max price</div>
-                <input class="form_control_container__time__input tertiary-1" type="number" v-model="toSliderValue" @input="syncToInputWithSlider" min="0" max="100"/>
+                <input class="slider-value-input tertiary-1" type="number" v-model="toSliderValue" @input="syncToInputWithSlider" min="0" max="10000000"/>
             </div>
         </div>
         <div class="sliders_control">
-            <input id="fromSlider" type="range" v-model.number="fromSliderValue" min="0" max="100"/>
-            <input id="toSlider" type="range" v-model.number="toSliderValue" min="0" max="100"/>
+            <input id="fromSlider" step="100000" type="range" v-model.number="fromSliderValue" min="0" max="10000000"/>
+            <input id="toSlider" step="100000" type="range" v-model.number="toSliderValue" min="0" max="10000000"/>
         </div>
 
     </div>
@@ -76,6 +76,7 @@ input[type="number"] {
   height: 30px;
   font-size: 20px;
   border: none;
+  width: 80%
 }
 
 /* input[type="number"]::-webkit-inner-spin-button,
@@ -97,28 +98,48 @@ input[type="range"] {
   height: 0;
   z-index: 1;
 }
+
+.slider-value-input {
+  padding: 5px 10px;
+  margin-top: 5px;
+}
 </style>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, defineProps } from 'vue';
+
+// Define props
+const props = defineProps({
+  minValue: { Number,
+    default: 0
+  },
+  maxValue: {Number,
+    default: 10000000
+  },
+});
+
+const emit = defineEmits(['updateFilter']);
 
 // Setup reactive references for both slider values
-const fromSliderValue = ref(10);
-const toSliderValue = ref(40);
+const fromSliderValue = ref(props.minValue);
+const toSliderValue = ref(props.maxValue);
 
 // Watch for changes on the fromSlider and adjust if it tries to exceed toSlider
 watch(fromSliderValue, (newValue) => {
   if (newValue > toSliderValue.value) {
-    fromSliderValue.value = toSliderValue.value - 1;
+    fromSliderValue.value = toSliderValue.value - 100000;
   }
+  emit('updateFilter', { minValue: fromSliderValue.value, maxValue: toSliderValue.value });
 });
 
 // Similarly, watch for changes on the toSlider and adjust if it goes below fromSlider
 watch(toSliderValue, (newValue) => {
   if (newValue < fromSliderValue.value) {
     console.log(fromSliderValue.value, toSliderValue.value)
-    toSliderValue.value = fromSliderValue.value + 1;
+    toSliderValue.value = fromSliderValue.value + 100000;
   }
+  emit('updateFilter', { minValue: fromSliderValue.value, maxValue: toSliderValue.value });
+  console.log(toSliderValue.value)
 });
 
 // Sync the input fields with sliders

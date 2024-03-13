@@ -30,10 +30,10 @@
 
         <div>
           <SortingButtons @updateSelectedButton="selectedButton = $event" />
-          <Filter />
+          <Filter @updateFilter="updateFilter($event)" />
         </div>
       </div>
-      <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" />
+      <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" :minPrice="minPrice" :maxPrice="maxPrice" />
     </div>
   </div>
 </template>
@@ -55,10 +55,22 @@ export default {
   setup() {
     const selectedButton = ref("price");
     const searchQuery = ref("");
+    const minPrice = ref(0); // Define minPrice
+    const maxPrice = ref(10000000); // Define maxPrice
+
+    const updateFilter = ({ minValue, maxValue }) => {
+      console.log('updateFIlter called with', minValue, maxValue)
+      minPrice.value = minValue;
+      maxPrice.value = maxValue;
+
+    };
 
     return {
       selectedButton,
       searchQuery,
+      minPrice, // Return minPrice
+      maxPrice, // Return maxPrice
+      updateFilter, // Return updateFilter
     };
   },
 };

@@ -110,7 +110,7 @@ export default {
   components: {
     Modal,
   },
-  props: ["searchQuery", "selectedButton", "limit"],
+  props: ["searchQuery", "selectedButton", "limit", "minPrice", "maxPrice"],
   setup(props) {
     const store = useStore();
     const houses = ref(null);
@@ -124,6 +124,7 @@ export default {
 
     const sortedAndFilteredHouses = computed(() => {
       let result = houses.value;
+      console.log(result)
       if (props.searchQuery) {
         result = result.filter((house) => {
           const searchQueryLowercased = props.searchQuery.toLowerCase();
@@ -141,6 +142,21 @@ export default {
           );
         });
       }
+
+      
+  // Filter by minPrice and maxPrice
+  if ((props.minPrice) && props.maxPrice) {
+    console.log(result)
+    console.log(props.minPrice, props.maxPrice)
+    console.log(result)
+    console.log('Max price:', props.maxPrice);
+    result = result.filter((house) => {
+      return (
+        house.price >= Number(props.minPrice) &&
+        house.price <= props.maxPrice
+      );
+    });
+  }
 
       if (props.selectedButton === "price" && houses.value) {
         result = result.sort((a, b) => a.price - b.price);
