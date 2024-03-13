@@ -30,6 +30,7 @@
 
         <div>
           <SortingButtons @updateSelectedButton="selectedButton = $event" />
+          <Filter />
         </div>
       </div>
       <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" />
@@ -42,12 +43,14 @@ import Fetch from "./Fetch.vue";
 import { ref } from "vue";
 import Search from "./Search.vue";
 import SortingButtons from "./SortingButtons.vue";
+import Filter from "./Filter.vue";
 
 export default {
   components: {
     Fetch,
     Search,
     SortingButtons,
+    Filter,
   },
   setup() {
     const selectedButton = ref("price");
@@ -72,7 +75,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px 0 50px;
 }
 
 @media (max-width: 768px) {
