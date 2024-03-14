@@ -31,9 +31,10 @@
         <div>
           <SortingButtons @updateSelectedButton="selectedButton = $event" />
           <Filter @updateFilter="updateFilter($event)" />
+          <Checkboxes @update:madeByMe="madeByMe = $event" @update:notMadeByMe="notMadeByMe = $event" :madeByMe="true" :notMadeByMe="true"/>
         </div>
       </div>
-      <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" :minPrice="minPrice" :maxPrice="maxPrice" />
+      <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" :minPrice="minPrice" :maxPrice="maxPrice" :madeByMe="madeByMe" :notMadeByMe="notMadeByMe" />
     </div>
   </div>
 </template>
@@ -44,6 +45,7 @@ import { ref } from "vue";
 import Search from "./Search.vue";
 import SortingButtons from "./SortingButtons.vue";
 import Filter from "./Filter.vue";
+import Checkboxes from "./Checkboxes.vue";
 
 export default {
   components: {
@@ -51,6 +53,7 @@ export default {
     Search,
     SortingButtons,
     Filter,
+    Checkboxes,
   },
   setup() {
     const selectedButton = ref("price");
@@ -58,6 +61,8 @@ export default {
     const minPrice = ref(0); // Define minPrice
     const maxPrice = ref(10000000); // Define maxPrice
 
+    const madeByMe = ref(true);
+const notMadeByMe = ref(true);
     const updateFilter = ({ minValue, maxValue }) => {
       console.log('updateFIlter called with', minValue, maxValue)
       minPrice.value = minValue;
@@ -71,6 +76,8 @@ export default {
       minPrice, // Return minPrice
       maxPrice, // Return maxPrice
       updateFilter, // Return updateFilter
+      madeByMe,
+      notMadeByMe,
     };
   },
 };

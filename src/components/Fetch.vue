@@ -110,7 +110,7 @@ export default {
   components: {
     Modal,
   },
-  props: ["searchQuery", "selectedButton", "limit", "minPrice", "maxPrice"],
+  props: ["searchQuery", "selectedButton", "limit", "minPrice", "maxPrice", "madeByMe", "notMadeByMe"],
   setup(props) {
     const store = useStore();
     const houses = ref(null);
@@ -142,6 +142,20 @@ export default {
           );
         });
       }
+
+      if (props.madeByMe === true && props.notMadeByMe === true && result) {
+  // If both checkboxes are checked, show all houses
+  result = result;
+} else if (props.madeByMe === true && result) {
+  // If only the 'madeByMe' checkbox is checked, show only the houses made by me
+  result = result.filter((house) => house.madeByMe);
+} else if (props.notMadeByMe === true && result) {
+  // If only the 'notMadeByMe' checkbox is checked, show only the houses not made by me
+  result = result.filter((house) => !house.madeByMe);
+} else {
+  // If neither checkbox is checked, show no houses
+  result = [];
+}
 
       if (result && props.minPrice == 0) {
   result = result.filter((house) => {
