@@ -12,10 +12,10 @@
           <div class="leftSide">
             <img :src="house.image" alt="House image" class="house-image" />
             <div class="additionalInfo">
-              <p class="no-margin header-2 primary-element">
+              <h2 class="no-margin header-2 primary-element" id="house-header">
                 {{ house.location.street }} {{ house.location.houseNumber
                 }}{{ house.location.houseNumberAddition }}
-              </p>
+              </h2>
               <p class="no-margin listing-information primary-element">
                 € {{ house.price.toLocaleString("de-DE") }}
               </p>
@@ -105,17 +105,28 @@
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import Modal from "./Modal.vue";
+import { useRoute } from "vue-router";
+
 
 export default {
   components: {
     Modal,
   },
-  props: ["searchQuery", "selectedButton", "limit", "minPrice", "maxPrice", "madeByMe", "notMadeByMe"],
+  props: [
+    "searchQuery",
+    "selectedButton",
+    "limit",
+    "minPrice",
+    "maxPrice",
+    "madeByMe",
+    "notMadeByMe",
+  ],
   setup(props) {
     const store = useStore();
     const houses = ref(null);
     const houseId = ref(null); // Add this line
     const showModal = ref(false);
+    const route = useRoute();
 
     onMounted(async () => {
       await store.dispatch("fetchHouses");
@@ -124,7 +135,7 @@ export default {
 
     const sortedAndFilteredHouses = computed(() => {
       let result = houses.value;
-      console.log(result)
+      console.log(result);
       if (props.searchQuery) {
         result = result.filter((house) => {
           const searchQueryLowercased = props.searchQuery.toLowerCase();
@@ -143,39 +154,54 @@ export default {
         });
       }
 
-      if (props.madeByMe === true && props.notMadeByMe === true && result) {
-  // If both checkboxes are checked, show all houses
-  result = result;
-} else if (props.madeByMe === true && result) {
-  // If only the 'madeByMe' checkbox is checked, show only the houses made by me
-  result = result.filter((house) => house.madeByMe);
-} else if (props.notMadeByMe === true && result) {
-  // If only the 'notMadeByMe' checkbox is checked, show only the houses not made by me
-  result = result.filter((house) => !house.madeByMe);
-} else {
-  // If neither checkbox is checked, show no houses
-  result = [];
-}
+      if (
+        (props.madeByMe === true && props.notMadeByMe === true && result) ||
+        (route && route.path !== "/")
+      ) {
+        if (route) {
+          console.log(route.path);
+        }
+        // If both checkboxes are checked, show all houses
+        result = result;
+      } else if (props.madeByMe === true && result) {
+        if (route) {
+          console.log(route.path);
+        }
+        // If only the 'madeByMe' checkbox is checked, show only the houses made by me
+        result = result.filter((house) => house.madeByMe);
+      } else if (props.notMadeByMe === true && result) {
+        if (route) {
+          console.log(route.path);
+        }
+        // If only the 'notMadeByMe' checkbox is checked, show only the houses not made by me
+        result = result.filter((house) => !house.madeByMe);
+      } else {
+        if (route) {
+          console.log(route.path);
+        }
+        // If neither checkbox is checked, show no houses
+        result = [];
+      }
 
       if (result && props.minPrice == 0) {
-  result = result.filter((house) => {
-    return house.price <= props.maxPrice;
-  });
-}
-      
-  // Filter by minPrice and maxPrice
-  if (props.minPrice && props.maxPrice) {
-    console.log(result)
-    console.log(props.minPrice, props.maxPrice)
-    console.log(result)
-    console.log('Max price:', props.maxPrice);
-    result = result.filter((house) => {
-      return (
-        house.price >= Number(props.minPrice) &&
-        house.price <= props.maxPrice
-      );
-    });
-  }
+        result = result.filter((house) => {
+          return house.price <= props.maxPrice;
+        });
+      }
+
+      // Filter by minPrice and maxPrice
+      if (props.minPrice && props.maxPrice) {
+        console.log(result);
+        console.log(props.minPrice, props.maxPrice);
+        console.log(result);
+        console.log("Max price:", props.maxPrice);
+        result = result.filter((house) => {
+          return (
+            house.price >= Number(props.minPrice) &&
+            house.price <= props.maxPrice
+          );
+        });
+      }
 
       if (props.selectedButton === "price" && houses.value) {
         result = result.sort((a, b) => a.price - b.price);
@@ -272,6 +298,10 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 10px;
+}
+
+#house-header {
+  margin-right: 20px;
 }
 
 .icons {

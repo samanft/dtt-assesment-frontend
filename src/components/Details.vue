@@ -94,13 +94,7 @@
               <!-- Add more properties as needed -->
             </div>
             <p class="body-text padding">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              {{ house.description }}
             </p>
           </div>
         </div>
@@ -167,7 +161,7 @@ export default {
     z-index: 1;
     position: absolute;
     top: 40px;
-    right: 5%;  
+    right: 5%;
   }
 }
 
