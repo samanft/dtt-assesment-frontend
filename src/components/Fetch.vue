@@ -143,9 +143,14 @@ export default {
         });
       }
 
+      if (result && props.minPrice == 0) {
+  result = result.filter((house) => {
+    return house.price <= props.maxPrice;
+  });
+}
       
   // Filter by minPrice and maxPrice
-  if ((props.minPrice) && props.maxPrice) {
+  if (props.minPrice && props.maxPrice) {
     console.log(result)
     console.log(props.minPrice, props.maxPrice)
     console.log(result)
