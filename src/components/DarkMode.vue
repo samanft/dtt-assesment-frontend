@@ -1,9 +1,12 @@
 <template>
-
+  <div style="display: flex; align-items: center;">
+    <p class="desktop-header-inactive-menu" style="margin-right: 20px;">Dark Mode</p>
   <label class="switch">
-    <input type="checkbox" checked />
+    <input type="checkbox" @click="toggleDark()" />
     <span class="slider round"></span>
   </label>
+  </div>
+
 </template>
 
 <style scoped>
@@ -67,3 +70,12 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 </style>
+
+<script setup>
+import { useDark, useToggle } from "@vueuse/core";
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
+console.log(isDark);
+</script>
+

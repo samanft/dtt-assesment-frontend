@@ -39,7 +39,7 @@
                   width="15px"
                   alt="Location icon"
                 />
-                <p class="iconText">
+                <p class="iconText listing-information">
                   {{ house.location.zip }} {{ house.location.city }}
                 </p>
               </div>
@@ -49,7 +49,7 @@
                   class="iconImages"
                   width="15px"
                 />
-                <p class="no-margin primary-element iconText">
+                <p class="no-margin primary-element iconText listing-information">
                   {{ house.price.toLocaleString("de-DE") }}
                 </p>
                 <img
@@ -58,14 +58,14 @@
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText">{{ house.size }}</p>
+                <p class="iconText listing-information">{{ house.size }}</p>
                 <img
                   class="iconImages"
                   src="../assets/ic_construction_date@3x.png"
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText">Built in {{ house.constructionYear }}</p>
+                <p class="iconText listing-information">Built in {{ house.constructionYear }}</p>
               </div>
 
               <div class="icons">
@@ -75,21 +75,21 @@
                   width="15px"
                   alt="Bedroom icon"
                 />
-                <p class="iconText">{{ house.rooms.bedrooms }}</p>
+                <p class="iconText listing-information">{{ house.rooms.bedrooms }}</p>
                 <img
                   class="iconImages"
                   src="../assets/ic_bath@3x.png"
                   width="15px"
                   alt="Bathroom icon"
                 />
-                <p class="iconText">{{ house.rooms.bathrooms }}</p>
+                <p class="iconText listing-information">{{ house.rooms.bathrooms }}</p>
                 <img
                   class="iconImages"
                   src="../assets/ic_garage@3x.png"
                   width="15px"
                   alt="Size icon"
                 />
-                <p class="iconText">{{ house.hasGarage ? "Yes" : "No" }}</p>
+                <p class="iconText listing-information">{{ house.hasGarage ? "Yes" : "No" }}</p>
               </div>
               <!-- Add more properties as needed -->
             </div>
@@ -218,6 +218,10 @@ export default {
   }
 }
 
+/* .listing-information {
+  margin-right: 15px;
+} */
+
 .background-1 {
   min-height: 100%;
   padding-top: 20px;
@@ -233,7 +237,7 @@ export default {
 }
 
 .iconText {
-  margin-right: 5px;
+  margin-right: 20px;
 }
 
 .padding {

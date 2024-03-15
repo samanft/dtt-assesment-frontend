@@ -1,5 +1,5 @@
 <template>
-  <div class="background-image">
+  <div class="background-image" :style="{ backgroundImage: `url(${backgroundImage})`}">
     <div class="container">
       <BackButton />
       <h1 class="header-1 no-margin" id="listing-header">{{ headerText }}</h1>
@@ -164,108 +164,100 @@
   </div>
 </template>
 
-<script>
-import { ref, computed, onMounted } from "vue";
-import { useStore } from "vuex";
-import router from "../main";
-import BackButton from "./BackButton.vue";
 
-export default {
-  props: {
-    houseId: {
-      type: String,
-      default: null,
-    },
-    isEditing: {
-      type: Boolean,
-      default: false,
-    },
+
+<script setup>
+import { ref, computed, onMounted, defineProps } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useDark } from '@vueuse/core';
+import BackButton from './BackButton.vue';
+import backgroundImageDark from '../assets/house_dark.jpg';
+import backgroundImageLight from '../assets/img_background@3x.png';
+
+const props = defineProps({
+  houseId: {
+    type: String,
+    default: null,
   },
-  computed: {
-    headerText() {
-      return this.isEditing ? "Edit listing" : "New listing";
-    },
+  isEditing: {
+    type: Boolean,
+    default: false,
   },
-  name: "NewListing",
-  components: {
-    BackButton,
-  },
-  setup(props) {
-    const store = useStore();
+});
 
-    const house = ref({
-      streetName: "",
-      houseNumber: "",
-      addition: "",
-      postalCode: "",
-      city: "",
-      image: "",
-      price: "",
-      size: "",
-      garage: "",
-      bedroom: "",
-      bathrooms: "",
-      constructionDate: "",
-      description: "",
-    });
+const router = useRouter();
+const store = useStore();
+const house = ref({
+  streetName: '',
+  houseNumber: '',
+  addition: '',
+  postalCode: '',
+  city: '',
+  image: '',
+  price: '',
+  size: '',
+  garage: '',
+  bedroom: '',
+  bathrooms: '',
+  constructionDate: '',
+  description: '',
+});
 
-    onMounted(async () => {
-      if (props.houseId) {
-        console.log(props.houseId);
-        await store.dispatch("fetchHouseById", props.houseId);
-        const fetchedHouse = store.state.house;
-        console.log(fetchedHouse); // Log the fetched house object (for debugging purposes
-        house.value = {
-          streetName: fetchedHouse.location.street,
-          houseNumber: fetchedHouse.location.houseNumber,
-          addition: fetchedHouse.location.houseNumberAddition,
-          postalCode: fetchedHouse.location.zip,
-          city: fetchedHouse.location.city,
-          image: fetchedHouse.image,
-          price: fetchedHouse.price,
-          size: fetchedHouse.size,
-          garage: fetchedHouse.hasGarage ? "Yes" : "No",
-          bedroom: fetchedHouse.rooms.bedrooms,
-          bathrooms: fetchedHouse.rooms.bathrooms,
-          constructionDate: fetchedHouse.createdAt,
-          description: fetchedHouse.description,
-        };
-      }
-    });
+const isDark = useDark();
 
-    let file = null;
-    const onFileChange = (e) => {
-      file = e.target.files[0];
-      house.value.image = file.name; // Update house.image with the name of the selected file
-      console.log(file); // Log the file object (for debugging purposes)
+const backgroundImage = computed(() => {
+  return isDark.value ? backgroundImageDark : backgroundImageLight;
+});
+
+onMounted(async () => {
+  if (props.houseId) {
+    await store.dispatch('fetchHouseById', props.houseId);
+    const fetchedHouse = store.state.house;
+    house.value = {
+      streetName: fetchedHouse.location.street,
+      houseNumber: fetchedHouse.location.houseNumber,
+      addition: fetchedHouse.location.houseNumberAddition,
+      postalCode: fetchedHouse.location.zip,
+      city: fetchedHouse.location.city,
+      image: fetchedHouse.image,
+      price: fetchedHouse.price,
+      size: fetchedHouse.size,
+      garage: fetchedHouse.hasGarage ? 'Yes' : 'No',
+      bedroom: fetchedHouse.rooms.bedrooms,
+      bathrooms: fetchedHouse.rooms.bathrooms,
+      constructionDate: fetchedHouse.createdAt,
+      description: fetchedHouse.description,
     };
+  }
+});
 
-    const onBlur = (event) => {
-      if (event.target.value === "") {
-        console.log("empty");
-        event.target.style.border = "1px solid red";
-      } else {
-        console.log("not empty");
-        event.target.style.border = "none"; // Reset to default color when there is a value
-      }
-    };
+let file = null;
+const onFileChange = (e) => {
+  file = e.target.files[0];
+  house.value.image = file.name;
+};
 
-    const isFormFilled = computed(() => {
-      let validationHouse = { ...house.value };
-      delete validationHouse.addition; // Making addition optional by removing it from validation
+const onBlur = (event) => {
+  if (event.target.value === '') {
+    event.target.style.border = '1px solid red';
+  } else {
+    event.target.style.border = 'none';
+  }
+};
 
-      // Check if all fields in house are filled out
-      const formFilled = Object.values(validationHouse).every(
-        (value) => value !== ""
-      );
-      console.log(formFilled); // Log the result
-      return formFilled;
-    });
+const isFormFilled = computed(() => {
+  let validationHouse = { ...house.value };
+  delete validationHouse.addition;
+  return Object.values(validationHouse).every((value) => value !== '');
+});
 
-    // const fileInput = ref(null);
+const headerText = computed(() => {
+  return props.isEditing ? 'Edit listing' : 'New listing';
+});
 
-    const onSubmit = async () => {
-      var myHeaders = new Headers();
+const onSubmit = async () => {
+  var myHeaders = new Headers();
       myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
 
       var formdata = new FormData();
@@ -351,17 +343,9 @@ export default {
         .catch((error) => console.log("error", error));
 
       router.push("/");
-    };
-
-    return {
-      house,
-      onFileChange,
-      isFormFilled,
-      onBlur,
-      onSubmit,
-    };
-  },
 };
+
+// No return statement is needed. All reactive states, computed properties, and methods are directly usable in the template.
 </script>
 
 <style scoped>

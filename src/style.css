@@ -26,6 +26,63 @@
   background-color: #eb5440;
 }
 
+.dark .primary-element {
+  color: white;
+}
+
+.dark .background-1 {
+  background-color: #242424;
+}
+
+.dark .background-2 {
+  background-color: #1a1a1a;
+}
+
+.dark .back-button-label-desktop {
+  color: white;
+}
+
+.dark .secondary-background {
+  background-color: #1a1a1a;
+}
+
+.dark .tertiary-1 {
+  background-color: #171717;
+}
+
+.dark .tertiary-2 {
+  background-color: #3c3c3c;
+  color: white;
+}
+
+.dark label {
+  color: white;
+}
+
+.dark input, .dark select, .dark textarea {
+  background-color: #1a1a1a;
+  color: white;
+}
+.dark .header-1 {
+  color: white;
+}
+
+.dark .body-text {
+  color: white;
+}
+
+.dark .header-2 {
+  color: white;
+}
+
+.dark .desktop-header-inactive-menu {
+  color: white;
+}
+
+.dark .listing-information {
+  color: white;
+}
+
 .text-white {
   color: white;
 }
@@ -39,7 +96,7 @@
 }
 
 .secondary-background {
-  background-color : #4a4b4c;
+  background-color: #4a4b4c;
 }
 
 .hyperlink {
@@ -64,114 +121,112 @@
 }
 
 .header-1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 32px;
 }
 
 .header-2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 22px;
 }
 
 .desktop-header-active-menu {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 18px;
 }
 
 .buttons-and-tabs {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 18px;
   color: white;
 }
 
 .back-button-label-desktop {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600; /* semibold */
   font-size: 16px;
 }
 
 .input-field-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600; /* semibold */
   font-size: 14px;
 }
 
 .desktop-header-inactive-menu {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500; /* medium */
   font-size: 18px;
 }
 
 .empty-state-message {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500; /* medium */
   font-size: 18px;
 }
 
 .header-1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 32px;
 }
 
 .header-2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 22px;
 }
 
 .desktop-header-active-menu {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 18px;
 }
 
 .buttons-and-tabs {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: bold;
   font-size: 18px;
 }
 
 .back-button-label-desktop {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600; /* semibold */
   font-size: 16px;
   color: black;
 }
 
 .input-field-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600; /* semibold */
   font-size: 14px;
 }
 
 .desktop-header-inactive-menu {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500; /* medium */
   font-size: 18px;
 }
 
 .empty-state-message {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500; /* medium */
   font-size: 18px;
 }
 
 .listing-information {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 400; /* regular */
   font-size: 16px;
-
 }
 
 .body-text {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 18px;
-
 }
 
 /* Mobile styles */
