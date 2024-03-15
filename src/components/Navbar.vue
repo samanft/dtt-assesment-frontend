@@ -20,6 +20,9 @@
           >About</router-link
         >
       </li>
+      <li>
+        <DarkMode />
+      </li>
     </ul>
   </nav>
 </template>
@@ -27,9 +30,14 @@
 <script>
 import { ref } from "vue";
 import logoSrc from "../assets/img_logo_dtt@3x.png";
+import DarkMode from "./DarkMode.vue";
 
 export default {
+  components: {
+      DarkMode,
+    },
   setup() {
+
     const logo = ref(logoSrc);
 
     const lastClicked = ref(null);

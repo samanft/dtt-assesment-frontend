@@ -36,7 +36,13 @@ label {
 }
 
 #checkboxes {
-  margin-top: 40px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  #checkboxes {
+    margin-bottom: 20px;
+  }
 }
 </style>
 

@@ -26,12 +26,15 @@
         </router-link>
       </div>
       <div class="flex-2">
-        <Search @updateSearchQuery="searchQuery = $event" />
+        <div>
+          <Search @updateSearchQuery="searchQuery = $event" />
+        <Checkboxes @update:madeByMe="madeByMe = $event" @update:notMadeByMe="notMadeByMe = $event" :madeByMe="true" :notMadeByMe="true"/>
 
+        </div>
         <div>
           <SortingButtons @updateSelectedButton="selectedButton = $event" />
           <Filter @updateFilter="updateFilter($event)" />
-          <Checkboxes @update:madeByMe="madeByMe = $event" @update:notMadeByMe="notMadeByMe = $event" :madeByMe="true" :notMadeByMe="true"/>
+          
         </div>
       </div>
       <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" :minPrice="minPrice" :maxPrice="maxPrice" :madeByMe="madeByMe" :notMadeByMe="notMadeByMe" />
