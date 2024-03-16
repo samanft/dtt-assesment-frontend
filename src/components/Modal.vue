@@ -8,7 +8,7 @@
         <button
           @click="deleteHouse"
           class="buttons-and-tabs primary-background"
-          style="display: block; margin: auto; width: 50%; border: none; padding: 10px 20px; border-radius: 5px;"
+          style="display: block; margin: auto; width: 50%; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; margin-bottom: 10px;"
         >
           YES, DELETE
         </button>
