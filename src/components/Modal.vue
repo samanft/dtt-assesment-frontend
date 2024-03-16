@@ -23,16 +23,21 @@
     </div>
   </template>
   
-  <script>
-  export default {
-    methods: {
-      deleteHouse() {
-        this.$emit('delete-house');
-      },
-      closeModal() {
-        this.$emit('close-modal');
-      },
-    },
+  <script setup>
+  import { defineEmits } from 'vue';
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
+
+  const emit = defineEmits(['delete-house', 'close-modal']);
+  
+  const deleteHouse = () => {
+    emit('delete-house');
+    router.push('/');
+
+  };
+  
+  const closeModal = () => {
+    emit('close-modal');
   };
   </script>
 

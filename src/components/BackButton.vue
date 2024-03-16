@@ -4,15 +4,20 @@
     <div class="back-button-label-desktop" id="back-button-text">Back to overview</div>
   </router-link>
   <router-link to="/" class="align-center" id="back-button-mobile">
-    <img id="back-arrow" src="../assets/ic_back_grey@3x.png" alt="Back arrow" />
+    <img id="back-arrow" :src="backArrowSrc" alt="Back arrow" />
     </router-link>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import backArrowWhite from '../assets/ic_back_white@3x.png';
+import backArrowGrey from '../assets/ic_back_grey@3x.png';
 
-export default defineComponent({
-  name: 'BackButton',
+const route = useRoute();
+
+const backArrowSrc = computed(() => {
+  return route.name === 'Details' ? backArrowWhite : backArrowGrey;
 });
 </script>
 
