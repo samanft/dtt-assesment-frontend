@@ -13,6 +13,7 @@
             type="text"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.streetName }}</div>
         </div>
         <div class="div2">
           <label class="input-field-title" for="houseNumber"
@@ -25,6 +26,7 @@
             type="number"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.houseNumber }}</div>
         </div>
         <div class="div3">
           <label class="input-field-title" for="addition"
@@ -46,6 +48,7 @@
             type="text"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.postalCode }}</div>
         </div>
         <div class="div5">
           <label class="input-field-title" for="city">City:</label>
@@ -56,6 +59,7 @@
             type="text"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.city }}</div>
         </div>
         <div class="div6">
           <label class="input-field-title" for="image"
@@ -87,6 +91,7 @@
             type="number"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.price }}</div>
         </div>
         <div class="div8">
           <label class="input-field-title" for="size">Size:</label>
@@ -97,6 +102,7 @@
             type="number"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.size }}</div>
         </div>
         <div class="div9">
           <label class="input-field-title" for="garage">Garage:</label>
@@ -115,6 +121,7 @@
             type="number"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.bedroom }}</div>
         </div>
         <div class="div11">
           <label class="input-field-title" for="bathrooms">Bathrooms:</label>
@@ -125,6 +132,7 @@
             type="number"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.bathrooms }}</div>
         </div>
         <div class="div12">
           <label class="input-field-title" for="constructionDate"
@@ -136,6 +144,7 @@
             type="date"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.constructionDate }}</div>
         </div>
         <div class="div13">
           <label class="input-field-title" for="description"
@@ -148,6 +157,7 @@
             v-model="house.description"
             @blur="onBlur"
           />
+           <div class="error-message">{{ errorMessages.description }}</div>
         </div>
         <div class="div14">
           <button
@@ -194,7 +204,6 @@ const house = ref({
   addition: '',
   postalCode: '',
   city: '',
-  image: '',
   price: '',
   size: '',
   garage: '',
@@ -238,13 +247,32 @@ const onFileChange = (e) => {
   house.value.image = file.name;
 };
 
+// Change errorMessage to an object
+let errorMessages = ref({
+  streetName: '',
+  houseNumber: '',
+  postalCode: '',
+  city: '',
+  price: '',
+  size: '',
+  bedroom: '',
+  bathrooms: '',
+  constructionDate: '',
+  description: '',
+});
+
 const onBlur = (event) => {
+  const fieldName = event.target.id; // Use the id to identify the field
   if (event.target.value === '') {
     event.target.style.border = '1px solid red';
+    errorMessages.value[fieldName] = 'Input field required.'; // Set error for specific field
   } else {
     event.target.style.border = 'none';
+    errorMessages.value[fieldName] = ''; // Clear error for specific field
   }
 };
+
+
 
 const isFormFilled = computed(() => {
   let validationHouse = { ...house.value };
@@ -368,6 +396,10 @@ select {
   form {
     width: 90%;
   }
+}
+
+.error-message {
+  margin-top: 10px;
 }
 
 #listing-header {

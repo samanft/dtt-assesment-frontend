@@ -229,6 +229,13 @@
   font-size: 18px;
 }
 
+.error-message {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: red;
+  font-style: italic;
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
   .header-1 {
