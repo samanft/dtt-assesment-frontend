@@ -5,6 +5,9 @@
       @delete-house="deleteHouse"
       @close-modal="showModal = false"
     />
+    <div class="header-2" style="margin-bottom: 10px;">
+    {{ numberOfHouses }} houses found
+  </div>
     <div v-for="(house, index) in houses" :key="index">
       <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
       <div class="house-card background-2 shadow-effect">
@@ -226,6 +229,10 @@ export default {
       return result;
     });
 
+    const numberOfHouses = computed(() => {
+      return sortedAndFilteredHouses.value.length;
+    });
+
     const prepareDelete = (id) => {
       showModal.value = true;
       houseId.value = id;
@@ -238,30 +245,12 @@ export default {
       showModal.value = false;
     };
 
-    // const deleteHouse = async () => {
-    //   var myHeaders = new Headers();
-    //   myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
-
-    //   var requestOptions = {
-    //     method: 'DELETE',
-    //     headers: myHeaders,
-    //     redirect: 'follow'
-    //   };
-
-    //   await fetch(`https://api.intern.d-tt.nl/api/houses/${houseId.value}`, requestOptions)
-    //     .then(response => response.text())
-    //     .then(result => {
-    //       console.log(result);
-    //       showModal.value = false;
-    //     })
-    //     .catch(error => console.log('error', error));
-    // };
-
     return {
       houses: sortedAndFilteredHouses,
       showModal,
       deleteHouse,
       prepareDelete, // Add this line
+      numberOfHouses,
     };
   },
 };
