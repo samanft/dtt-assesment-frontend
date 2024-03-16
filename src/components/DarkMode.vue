@@ -75,6 +75,7 @@ input:checked + .slider:before {
 import { useDark, useToggle } from "@vueuse/core";
 
 const isDark = useDark();
+isDark.value = false;
 const toggleDark = useToggle(isDark);
 console.log(isDark);
 </script>

@@ -122,33 +122,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
 import Fetch from "./Fetch.vue";
 import BackButton from "./BackButton.vue";
 
-export default {
-  props: ["houseId"],
-  components: {
-    Fetch,
-    BackButton,
-  },
-  setup(props) {
-    const store = useStore();
+const props = defineProps(["houseId"]);
 
-    const house = computed(() => {
-      console.log(props.houseId);
-      return store.state.houses.find(
-        (house) => house.id === Number(props.houseId)
-      );
-    });
+const store = useStore();
 
-    return {
-      house,
-    };
-  },
-};
+const house = computed(() => {
+  console.log(props.houseId);
+  return store.state.houses.find(
+    (house) => house.id === Number(props.houseId)
+  );
+});
 </script>
 
 <style scoped>
@@ -190,10 +179,10 @@ export default {
 
 @media (max-width: 768px) {
   .house-image {
-    width: 100%;
+    width: 100vw;
   }
   .house-info {
-    width: 100%;
+    width: 100vw;
   }
 }
 
@@ -223,7 +212,7 @@ export default {
 } */
 
 .background-1 {
-  min-height: 100%;
+  min-height: 100vh;
   padding-top: 20px;
 }
 

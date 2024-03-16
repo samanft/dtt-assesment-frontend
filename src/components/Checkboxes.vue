@@ -26,7 +26,7 @@
 
 <style scoped>
 input {
-  accent-color: red;
+  accent-color: #eb5440;
   width: 18px;
   height: 18px;
 }
