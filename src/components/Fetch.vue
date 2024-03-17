@@ -5,7 +5,7 @@
       @delete-house="deleteHouse"
       @close-modal="showModal = false"
     />
-    <div class="header-2" style="margin-bottom: 10px">
+    <div v-if="route && route.name !== 'Details'" class="header-2" style="margin-bottom: 10px">
       {{ numberOfHouses }} houses found
     </div>
     <div v-for="(house, index) in houses" :key="index">
@@ -129,6 +129,7 @@ export default {
     const houseId = ref(null); // Add this line
     const showModal = ref(false);
     const route = useRoute();
+    
 
     onMounted(async () => {
       await store.dispatch("fetchHouses");
@@ -252,6 +253,7 @@ export default {
       deleteHouse,
       prepareDelete, // Add this line
       numberOfHouses,
+      route,
     };
   },
 };
