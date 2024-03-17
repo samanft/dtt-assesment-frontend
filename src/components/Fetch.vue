@@ -5,9 +5,9 @@
       @delete-house="deleteHouse"
       @close-modal="showModal = false"
     />
-    <div class="header-2" style="margin-bottom: 10px;">
-    {{ numberOfHouses }} houses found
-  </div>
+    <div class="header-2" style="margin-bottom: 10px">
+      {{ numberOfHouses }} houses found
+    </div>
     <div v-for="(house, index) in houses" :key="index">
       <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
       <div class="house-card background-2 shadow-effect">
@@ -110,7 +110,6 @@ import { useStore } from "vuex";
 import Modal from "./Modal.vue";
 import { useRoute } from "vue-router";
 
-
 export default {
   components: {
     Modal,
@@ -140,20 +139,22 @@ export default {
       let result = houses.value;
       console.log(result);
       if (props.searchQuery) {
+        const searchWords = props.searchQuery.toLowerCase().split(" ");
+
         result = result.filter((house) => {
-          const searchQueryLowercased = props.searchQuery.toLowerCase();
-          return (
-            house.location.street
-              .toLowerCase()
-              .includes(searchQueryLowercased) ||
-            house.price
-              .toString()
-              .toLowerCase()
-              .includes(searchQueryLowercased) ||
-            house.location.zip.toLowerCase().includes(searchQueryLowercased) ||
-            house.location.city.toLowerCase().includes(searchQueryLowercased) ||
-            house.size.toString().toLowerCase().includes(searchQueryLowercased)
-          );
+          return searchWords.every((word) => {
+            return (
+              house.location.street.toLowerCase().includes(word) ||
+              house.location.houseNumber
+                .toString()
+                .toLowerCase()
+                .includes(word) ||
+              house.price.toString().toLowerCase().includes(word) ||
+              house.location.zip.toLowerCase().includes(word) ||
+              house.location.city.toLowerCase().includes(word) ||
+              house.size.toString().toLowerCase().includes(word)
+            );
+          });
         });
       }
 
