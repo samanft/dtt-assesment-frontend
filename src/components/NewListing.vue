@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="background-image"
-    :style="{ backgroundImage: `url(${backgroundImage})` }"
-  >
+  <div class="background-image" :style="{ backgroundImage: `url(${backgroundImage})`}">
     <div class="container">
       <BackButton />
       <h1 class="header-1 no-margin" id="listing-header">{{ headerText }}</h1>
@@ -16,7 +13,7 @@
             type="text"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.streetName }}</div>
+           <div class="error-message">{{ errorMessages.streetName }}</div>
         </div>
         <div class="div2">
           <label class="input-field-title" for="houseNumber"
@@ -29,7 +26,7 @@
             type="number"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.houseNumber }}</div>
+           <div class="error-message">{{ errorMessages.houseNumber }}</div>
         </div>
         <div class="div3">
           <label class="input-field-title" for="addition"
@@ -51,7 +48,7 @@
             type="text"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.postalCode }}</div>
+           <div class="error-message">{{ errorMessages.postalCode }}</div>
         </div>
         <div class="div5">
           <label class="input-field-title" for="city">City:</label>
@@ -62,7 +59,7 @@
             type="text"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.city }}</div>
+           <div class="error-message">{{ errorMessages.city }}</div>
         </div>
         <div class="div6">
           <label class="input-field-title" for="image"
@@ -94,7 +91,7 @@
             type="number"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.price }}</div>
+           <div class="error-message">{{ errorMessages.price }}</div>
         </div>
         <div class="div8">
           <label class="input-field-title" for="size">Size:</label>
@@ -105,7 +102,7 @@
             type="number"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.size }}</div>
+           <div class="error-message">{{ errorMessages.size }}</div>
         </div>
         <div class="div9">
           <label class="input-field-title" for="garage">Garage:</label>
@@ -124,7 +121,7 @@
             type="number"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.bedroom }}</div>
+           <div class="error-message">{{ errorMessages.bedroom }}</div>
         </div>
         <div class="div11">
           <label class="input-field-title" for="bathrooms">Bathrooms:</label>
@@ -135,7 +132,7 @@
             type="number"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.bathrooms }}</div>
+           <div class="error-message">{{ errorMessages.bathrooms }}</div>
         </div>
         <div class="div12">
           <label class="input-field-title" for="constructionDate"
@@ -147,7 +144,7 @@
             type="date"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.constructionDate }}</div>
+           <div class="error-message">{{ errorMessages.constructionDate }}</div>
         </div>
         <div class="div13">
           <label class="input-field-title" for="description"
@@ -160,7 +157,7 @@
             v-model="house.description"
             @blur="onBlur"
           />
-          <div class="error-message">{{ errorMessages.description }}</div>
+           <div class="error-message">{{ errorMessages.description }}</div>
         </div>
         <div class="div14">
           <button
@@ -177,14 +174,16 @@
   </div>
 </template>
 
+
+
 <script setup>
-import { ref, computed, onMounted, defineProps } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import { useDark } from "@vueuse/core";
-import BackButton from "./BackButton.vue";
-import backgroundImageDark from "../assets/house_dark.jpg";
-import backgroundImageLight from "../assets/img_background@3x.png";
+import { ref, computed, onMounted, defineProps } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useDark } from '@vueuse/core';
+import BackButton from './BackButton.vue';
+import backgroundImageDark from '../assets/house_dark.jpg';
+import backgroundImageLight from '../assets/img_background@3x.png';
 
 const props = defineProps({
   houseId: {
@@ -200,18 +199,18 @@ const props = defineProps({
 const router = useRouter();
 const store = useStore();
 const house = ref({
-  streetName: "",
-  houseNumber: "",
-  addition: "",
-  postalCode: "",
-  city: "",
-  price: "",
-  size: "",
-  garage: "",
-  bedroom: "",
-  bathrooms: "",
-  constructionDate: "",
-  description: "",
+  streetName: '',
+  houseNumber: '',
+  addition: '',
+  postalCode: '',
+  city: '',
+  price: '',
+  size: '',
+  garage: '',
+  bedroom: '',
+  bathrooms: '',
+  constructionDate: '',
+  description: '',
 });
 
 const isDark = useDark();
@@ -222,7 +221,7 @@ const backgroundImage = computed(() => {
 
 onMounted(async () => {
   if (props.houseId) {
-    await store.dispatch("fetchHouseById", props.houseId);
+    await store.dispatch('fetchHouseById', props.houseId);
     const fetchedHouse = store.state.house;
     house.value = {
       streetName: fetchedHouse.location.street,
@@ -233,7 +232,7 @@ onMounted(async () => {
       image: fetchedHouse.image,
       price: fetchedHouse.price,
       size: fetchedHouse.size,
-      garage: fetchedHouse.hasGarage ? "Yes" : "No",
+      garage: fetchedHouse.hasGarage ? 'Yes' : 'No',
       bedroom: fetchedHouse.rooms.bedrooms,
       bathrooms: fetchedHouse.rooms.bathrooms,
       constructionDate: fetchedHouse.createdAt,
@@ -250,99 +249,65 @@ const onFileChange = (e) => {
 
 // Change errorMessage to an object
 let errorMessages = ref({
-  streetName: "",
-  houseNumber: "",
-  postalCode: "",
-  city: "",
-  price: "",
-  size: "",
-  bedroom: "",
-  bathrooms: "",
-  constructionDate: "",
-  description: "",
+  streetName: '',
+  houseNumber: '',
+  postalCode: '',
+  city: '',
+  price: '',
+  size: '',
+  bedroom: '',
+  bathrooms: '',
+  constructionDate: '',
+  description: '',
 });
 
 const onBlur = (event) => {
   const fieldName = event.target.id; // Use the id to identify the field
-  if (event.target.value === "") {
-    event.target.style.border = "1px solid red";
-    errorMessages.value[fieldName] = "Input field required."; // Set error for specific field
+  if (event.target.value === '') {
+    event.target.style.border = '1px solid red';
+    errorMessages.value[fieldName] = 'Input field required.'; // Set error for specific field
   } else {
-    event.target.style.border = "none";
-    errorMessages.value[fieldName] = ""; // Clear error for specific field
+    event.target.style.border = 'none';
+    errorMessages.value[fieldName] = ''; // Clear error for specific field
   }
 };
+
+
 
 const isFormFilled = computed(() => {
   let validationHouse = { ...house.value };
   delete validationHouse.addition;
-  return Object.values(validationHouse).every((value) => value !== "");
+  return Object.values(validationHouse).every((value) => value !== '');
 });
 
 const headerText = computed(() => {
-  return props.isEditing ? "Edit listing" : "New listing";
+  return props.isEditing ? 'Edit listing' : 'New listing';
 });
 
 const onSubmit = async () => {
   var myHeaders = new Headers();
-  myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
-
-  var formdata = new FormData();
-  formdata.append("price", house.value.price);
-  formdata.append("bedrooms", house.value.bedroom);
-  formdata.append("bathrooms", house.value.bathrooms);
-  formdata.append("size", house.value.size);
-  formdata.append("streetName", house.value.streetName);
-  formdata.append("houseNumber", house.value.houseNumber);
-  formdata.append("numberAddition", house.value.addition);
-  formdata.append("zip", house.value.postalCode);
-  formdata.append("city", house.value.city);
-  formdata.append(
-    "constructionYear",
-    new Date(house.value.constructionDate).getFullYear()
-  );
-  formdata.append("hasGarage", house.value.garage === "Yes" ? "true" : "false");
-  formdata.append("description", house.value.description);
-
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: formdata,
-    redirect: "follow",
-  };
-
-  console.log("houseId:", props.houseId);
-  console.log(
-    "URL:",
-    `https://api.intern.d-tt.nl/api/houses${
-      props.houseId ? `/${props.houseId}` : ""
-    }`
-  );
-
-  fetch(
-    `https://api.intern.d-tt.nl/api/houses${
-      props.houseId ? `/${props.houseId}` : ""
-    }`,
-    requestOptions
-  )
-    .then((response) => {
-      console.log(response);
-      if (props.houseId) {
-        return response.text();
-      } else {
-        return response.json();
-      }
-    })
-    .then((result) => {
-      console.log(result);
-      // Extract houseId from the result
-      const houseId = result.id ? result.id : props.houseId; // Replace 'id' with the actual property name if it's different
-      // Set up the headers and form data for the second request
-      var myHeaders = new Headers();
       myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
 
       var formdata = new FormData();
-      formdata.append("image", file);
+      formdata.append("price", house.value.price);
+      formdata.append("bedrooms", house.value.bedroom);
+      formdata.append("bathrooms", house.value.bathrooms);
+      formdata.append("size", house.value.size);
+      formdata.append("streetName", house.value.streetName);
+      formdata.append("houseNumber", house.value.houseNumber);
+      formdata.append("numberAddition", house.value.addition);
+      formdata.append("zip", house.value.postalCode);
+      formdata.append("city", house.value.city);
+      formdata.append(
+        "constructionYear",
+        new Date(house.value.constructionDate).getFullYear()
+      );
+      formdata.append(
+        "hasGarage",
+        house.value.garage === "Yes" ? "true" : "false"
+      );
+      formdata.append("description", house.value.description);
+      //   formdata.append("image", fileInput.value.files[0]);
 
       var requestOptions = {
         method: "POST",
@@ -351,21 +316,64 @@ const onSubmit = async () => {
         redirect: "follow",
       };
 
-      // Make the second fetch request
-      return fetch(
-        `https://api.intern.d-tt.nl/api/houses/${houseId}/upload`,
-        requestOptions
+      console.log("houseId:", props.houseId);
+      console.log(
+        "URL:",
+        `https://api.intern.d-tt.nl/api/houses${
+          props.houseId ? `/${props.houseId}` : ""
+        }`
       );
-    })
-    .then((response) => {
-      console.log(response);
-      return response.text();
-    })
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
 
-  router.push("/");
+      fetch(
+        `https://api.intern.d-tt.nl/api/houses${
+          props.houseId ? `/${props.houseId}` : ""
+        }`,
+        requestOptions
+      )
+        .then((response) => {
+          console.log(response);
+          if (props.houseId) {
+            return response.text();
+          } else {
+            return response.json();
+          }
+        })
+        .then((result) => {
+          console.log(result);
+          // Extract houseId from the result
+          const houseId = result.id ? result.id : props.houseId; // Replace 'id' with the actual property name if it's different
+          console.log(houseId); // Log the houseId (for debugging purposes)
+          // Set up the headers and form data for the second request
+          var myHeaders = new Headers();
+          myHeaders.append("X-Api-Key", "8pMUHx6Ddyk4hZYt9lBwKzTFmENPvsbW");
+
+          var formdata = new FormData();
+          formdata.append("image", file);
+
+          var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+            redirect: "follow",
+          };
+
+          // Make the second fetch request
+          return fetch(
+            `https://api.intern.d-tt.nl/api/houses/${houseId}/upload`,
+            requestOptions
+          );
+        })
+        .then((response) => {
+          console.log(response);
+          return response.text();
+        })
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+
+      router.push("/");
 };
+
+// No return statement is needed. All reactive states, computed properties, and methods are directly usable in the template.
 </script>
 
 <style scoped>

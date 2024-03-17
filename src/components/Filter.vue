@@ -129,17 +129,17 @@ watch(fromSliderValue, (newValue) => {
   if (newValue > toSliderValue.value) {
     fromSliderValue.value = toSliderValue.value - 100000;
   }
-  // Emit an event with the updated filter values
   emit('updateFilter', { minValue: fromSliderValue.value, maxValue: toSliderValue.value });
 });
 
 // Similarly, watch for changes on the toSlider and adjust if it goes below fromSlider
 watch(toSliderValue, (newValue) => {
   if (newValue < fromSliderValue.value) {
+    console.log(fromSliderValue.value, toSliderValue.value)
     toSliderValue.value = fromSliderValue.value + 100000;
   }
-  // Emit an event with the updated filter values
   emit('updateFilter', { minValue: fromSliderValue.value, maxValue: toSliderValue.value });
+  console.log(toSliderValue.value)
 });
 
 // Sync the input fields with sliders

@@ -37,4 +37,10 @@ input {
   background-size: 20px;
   text-indent: 30px; /* Add indentation to the text */
 }
+
+/* @media (max-width: 768px) {
+  #houseSearch {
+    margin-bottom: 20px;
+  }
+} */
 </style>

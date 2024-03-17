@@ -1,31 +1,27 @@
 <template>
-  <!-- Navigation bar -->
   <nav class="background-2">
     <ul>
-      <!-- Logo -->
       <li><img width="100px" :src="logo" /></li>
-      <!-- Houses link -->
       <li>
         <router-link
           class="secondary primary-element"
           :class="(lastClicked !== 'about' && $route.path !== '/about') || $route.path === '/' ? 'desktop-header-active-menu' : 'desktop-header-inactive-menu'"
           to="/"
-          @click.native="updateLastClicked('houses')"  <!-- Update last clicked link -->
+          @click.native="updateLastClicked('houses')"
           >Houses</router-link
         >
       </li>
-      <!-- About link -->
       <li>
         <router-link
         class="secondary primary-element" 
         :class="$route.path === '/about' ? 'desktop-header-active-menu' : 'desktop-header-inactive-menu'"
         to="/about" 
-        @click.native="updateLastClicked('about')"  <!-- Update last clicked link -->
+        @click.native="updateLastClicked('about')"  
           >About</router-link
         >
       </li>
-      <!-- Dark mode toggle -->
       <li>
+        
         <DarkMode />
       </li>
     </ul>
@@ -39,16 +35,14 @@ import DarkMode from "./DarkMode.vue";
 
 export default {
   components: {
-      DarkMode,  // Register DarkMode component
+      DarkMode,
     },
   setup() {
-    // Logo source
+
     const logo = ref(logoSrc);
 
-    // Last clicked link
     const lastClicked = ref(null);
 
-    // Function to update last clicked link
     const updateLastClicked = (link) => {
       console.log(link);
       lastClicked.value = link;
@@ -64,7 +58,6 @@ export default {
 </script>
 
 <style>
-/* Styles for the list */
 ul {
   list-style-type: none;
   margin: 0 auto;
@@ -78,7 +71,6 @@ ul {
   padding-bottom: 20px;
 }
 
-/* Styles for the list items */
 li {
   display: inline;
   margin-right: 50px;

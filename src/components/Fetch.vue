@@ -9,6 +9,7 @@
       {{ numberOfHouses }} houses found
     </div>
     <div v-for="(house, index) in houses" :key="index">
+      <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
       <div class="house-card background-2 shadow-effect">
         <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
           <div class="leftSide">
@@ -59,6 +60,7 @@
                   {{ house.size }}
                 </p>
               </div>
+              <!-- Add more properties as needed -->
             </div>
           </div>
         </router-link>
@@ -110,9 +112,9 @@ import { useRoute } from "vue-router";
 
 export default {
   components: {
-    Modal, // Modal component for deleting a house
+    Modal,
   },
-  props: [ // Props passed from parent component
+  props: [
     "searchQuery",
     "selectedButton",
     "limit",
@@ -122,46 +124,70 @@ export default {
     "notMadeByMe",
   ],
   setup(props) {
-    const store = useStore(); // Vuex store
-    const houses = ref(null); // Houses data
-    const houseId = ref(null); // House ID for deletion
-    const showModal = ref(false); // Show modal state
-    const route = useRoute(); // Current route
+    const store = useStore();
+    const houses = ref(null);
+    const houseId = ref(null); // Add this line
+    const showModal = ref(false);
+    const route = useRoute();
+    
 
-    // Fetch houses on component mount
     onMounted(async () => {
       await store.dispatch("fetchHouses");
       houses.value = store.getters.houses;
     });
 
-    // Computed property for sorted and filtered houses
     const sortedAndFilteredHouses = computed(() => {
       let result = houses.value;
-
-      // Filter houses by search query
+      console.log(result);
       if (props.searchQuery) {
-        // Your filtering logic here...
+        const searchWords = props.searchQuery.toLowerCase().split(" ");
+
+        result = result.filter((house) => {
+          return searchWords.every((word) => {
+            return (
+              house.location.street.toLowerCase().includes(word) ||
+              house.location.houseNumber
+                .toString()
+                .toLowerCase()
+                .includes(word) ||
+              house.price.toString().toLowerCase().includes(word) ||
+              house.location.zip.toLowerCase().includes(word) ||
+              house.location.city.toLowerCase().includes(word) ||
+              house.size.toString().toLowerCase().includes(word)
+            );
+          });
+        });
       }
 
-      // Filter houses by 'madeByMe' and 'notMadeByMe' checkboxes
       if (
         (props.madeByMe === true && props.notMadeByMe === true && result) ||
         (route && route.path !== "/")
       ) {
+        if (route) {
+          console.log(route.path);
+        }
         // If both checkboxes are checked, show all houses
         result = result;
       } else if (props.madeByMe === true && result) {
+        if (route) {
+          console.log(route.path);
+        }
         // If only the 'madeByMe' checkbox is checked, show only the houses made by me
         result = result.filter((house) => house.madeByMe);
       } else if (props.notMadeByMe === true && result) {
+        if (route) {
+          console.log(route.path);
+        }
         // If only the 'notMadeByMe' checkbox is checked, show only the houses not made by me
         result = result.filter((house) => !house.madeByMe);
       } else {
+        if (route) {
+          console.log(route.path);
+        }
         // If neither checkbox is checked, show no houses
         result = [];
       }
 
-      // Filter houses by price
       if (result && props.minPrice == 0) {
         result = result.filter((house) => {
           return house.price <= props.maxPrice;
@@ -170,6 +196,10 @@ export default {
 
       // Filter by minPrice and maxPrice
       if (props.minPrice && props.maxPrice) {
+        console.log(result);
+        console.log(props.minPrice, props.maxPrice);
+        console.log(result);
+        console.log("Max price:", props.maxPrice);
         result = result.filter((house) => {
           return (
             house.price >= Number(props.minPrice) &&
@@ -178,7 +208,6 @@ export default {
         });
       }
 
-      // Sort houses by selected button
       if (props.selectedButton === "price" && houses.value) {
         result = result.sort((a, b) => a.price - b.price);
       } else if (props.selectedButton === "size" && houses.value) {
@@ -195,7 +224,6 @@ export default {
         });
       }
 
-      // Limit the number of houses for recommendations on details page
       if (result && props.limit) {
         result = result.slice(0, props.limit);
       }
@@ -203,22 +231,19 @@ export default {
       return result;
     });
 
-    // Computed property for number of houses
     const numberOfHouses = computed(() => {
       return sortedAndFilteredHouses.value.length;
     });
 
-    // Prepare house for deletion
     const prepareDelete = (id) => {
       showModal.value = true;
       houseId.value = id;
     };
 
-    // Delete house
     const deleteHouse = async () => {
       await store.dispatch("deleteHouse", houseId.value);
-      await store.dispatch("fetchHouses");
-      houses.value = store.getters.houses;
+      await store.dispatch("fetchHouses"); // Add this line
+      houses.value = store.getters.houses; // Add this line
       showModal.value = false;
     };
 
@@ -226,7 +251,7 @@ export default {
       houses: sortedAndFilteredHouses,
       showModal,
       deleteHouse,
-      prepareDelete,
+      prepareDelete, // Add this line
       numberOfHouses,
       route,
     };
