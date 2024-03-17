@@ -129,58 +129,55 @@
           <h2 class="header-2 no-margin" id="recommendationsHeader">
             Recommended for you
           </h2>
+          <!-- Fetch and display 3 houses for the recommendations -->
           <Fetch :limit="3" />
         </div>
       </div>
-
-      <!-- <div class="row">
-          <div class="col-12">
-            <h1>Details</h1>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <p>House ID: {{ houseId }}</p>
-            <p>House Name: {{ house.location.street }}</p>
-          </div>
-        </div> -->
     </div>
   </div>
 </template>
 
 <script setup>
+// Importing necessary components and assets
 import { useStore } from "vuex";
 import Fetch from "./Fetch.vue";
 import BackButton from "./BackButton.vue";
-import Modal from './Modal.vue'; // Replace './Modal.vue' with the actual path to your Modal component
+import Modal from './Modal.vue';
 import DeleteGrey from "../assets/ic_delete@3x.png";
 import DeleteWhite from "../assets/ic_delete_white@3x.png";
 import EditOrange from "../assets/ic_edit@3x.png";
 import EditWhite from "../assets/ic_edit_white@3x.png";
 
+// Importing necessary Vue 3 Composition API functions
 import { ref, onMounted, onUnmounted, computed } from "vue";
+
+// State for showing the modal and the house ID
 const showModal = ref(false);
 const houseId = ref(null);
 
-
+// Function to prepare the deletion of a house
 const prepareDelete = (id) => {
   showModal.value = true;
   houseId.value = id;
 };
 
+// Function to delete a house
 const deleteHouse = async () => {
   await store.dispatch("deleteHouse", houseId.value);
-  await store.dispatch("fetchHouses"); // Add this line
-  house.value = store.getters.houses; // Add this line
+  await store.dispatch("fetchHouses");
+  house.value = store.getters.houses;
   showModal.value = false;
 };
 
+// State for the window width
 let windowWidth = ref(window.innerWidth);
 
+// Function to update the window width
 const updateWidth = () => {
   windowWidth.value = window.innerWidth;
 };
 
+// Event listeners for window resize
 onMounted(() => {
   window.addEventListener("resize", updateWidth);
 });
@@ -189,6 +186,7 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateWidth);
 });
 
+// Computed properties for the delete and edit buttons
 const DeleteButton = computed(() => {
   return windowWidth.value <= 768 ? DeleteWhite : DeleteGrey;
 });
@@ -197,10 +195,13 @@ const EditButton = computed(() => {
   return windowWidth.value <= 768 ? EditWhite : EditOrange;
 });
 
+// Defining props
 const props = defineProps(["houseId"]);
 
+// Vuex store
 const store = useStore();
 
+// Computed property for the house
 const house = computed(() => {
   console.log(props.houseId);
   return store.state.houses.find((house) => house.id === Number(props.houseId));
@@ -240,7 +241,7 @@ const house = computed(() => {
 
 .flex-container {
   display: flex;
-  align-items: baseline; /* optional, to align items vertically in the center */
+  align-items: baseline;
   justify-content: space-between;
 }
 
@@ -257,11 +258,6 @@ const house = computed(() => {
   margin-top: 15px;
 }
 
-/* img, div {
-  margin: 0;
-  padding: 0;
-} */
-
 .flex {
   display: flex;
   justify-content: space-between;
@@ -274,9 +270,6 @@ const house = computed(() => {
   }
 }
 
-/* .listing-information {
-  margin-right: 15px;
-} */
 
 .background-1 {
   min-height: 100vh;

@@ -1,8 +1,11 @@
 <template>
+  <!-- Main container -->
   <div class="background-1">
     <div class="container">
+      <!-- Header and "Create new" button -->
       <div class="flex-1">
         <h1 class="header-1 no-margin" id="housesHeader">Houses</h1>
+        <!-- "Create new" button (Desktop) -->
         <router-link
           :to="{ path: '/newlisting'}"
           class="button primary-background buttons-and-tabs"
@@ -15,7 +18,7 @@
           />
           Create new
         </router-link>
-
+        <!-- "Create new" button (Mobile) -->
         <router-link to="/newlisting" id="createNewButtonMobile">
           <img
             id="plusIconMobile"
@@ -25,24 +28,29 @@
           />
         </router-link>
       </div>
+      <!-- Search and filter components -->
       <div class="flex-2">
         <div>
+          <!-- Search component -->
           <Search @updateSearchQuery="searchQuery = $event" />
-        <Checkboxes @update:madeByMe="madeByMe = $event" @update:notMadeByMe="notMadeByMe = $event" :madeByMe="true" :notMadeByMe="true"/>
-
+          <!-- Checkboxes component -->
+          <Checkboxes @update:madeByMe="madeByMe = $event" @update:notMadeByMe="notMadeByMe = $event" :madeByMe="true" :notMadeByMe="true"/>
         </div>
         <div>
+          <!-- Sorting buttons component -->
           <SortingButtons @updateSelectedButton="selectedButton = $event" />
+          <!-- Filter component -->
           <Filter @updateFilter="updateFilter($event)" />
-          
         </div>
       </div>
+      <!-- Fetch component -->
       <Fetch :searchQuery="searchQuery" :selectedButton="selectedButton" :minPrice="minPrice" :maxPrice="maxPrice" :madeByMe="madeByMe" :notMadeByMe="notMadeByMe" />
     </div>
   </div>
 </template>
 
 <script>
+// Importing required components and vue functions
 import Fetch from "./Fetch.vue";
 import { ref } from "vue";
 import Search from "./Search.vue";
@@ -51,6 +59,7 @@ import Filter from "./Filter.vue";
 import Checkboxes from "./Checkboxes.vue";
 
 export default {
+  // Registering components
   components: {
     Fetch,
     Search,
@@ -59,26 +68,27 @@ export default {
     Checkboxes,
   },
   setup() {
-    const selectedButton = ref("price");
-    const searchQuery = ref("");
-    const minPrice = ref(0); // Define minPrice
-    const maxPrice = ref(10000000); // Define maxPrice
+    // State variables
+    const selectedButton = ref("price"); // Default sorting button
+    const searchQuery = ref(""); // Search query
+    const minPrice = ref(0); // Minimum price for filter
+    const maxPrice = ref(10000000); // Maximum price for filter
+    const madeByMe = ref(true); // Checkbox state
+    const notMadeByMe = ref(true); // Checkbox state
 
-    const madeByMe = ref(true);
-const notMadeByMe = ref(true);
+    // Function to update price filter
     const updateFilter = ({ minValue, maxValue }) => {
-      console.log('updateFIlter called with', minValue, maxValue)
-      minPrice.value = minValue;
-      maxPrice.value = maxValue;
-
+      minPrice.value = minValue; // Update minPrice
+      maxPrice.value = maxValue; // Update maxPrice
     };
 
+    // Return state variables and functions to use them in the template
     return {
       selectedButton,
       searchQuery,
-      minPrice, // Return minPrice
-      maxPrice, // Return maxPrice
-      updateFilter, // Return updateFilter
+      minPrice,
+      maxPrice,
+      updateFilter,
       madeByMe,
       notMadeByMe,
     };
