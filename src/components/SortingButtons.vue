@@ -31,25 +31,22 @@
   </button>
 </template>
 
-<script>
-import { ref } from "vue";
+<script setup>
+import { ref, defineEmits } from "vue";
 
-export default {
-  emits: ["updateSelectedButton"],
-  setup(props, { emit }) {
-    const selectedButton = ref("price");
+const selectedButton = ref("price");
 
-    const updateSelectedButton = (button) => {
-      selectedButton.value = button;
-      emit("updateSelectedButton", button);
-    };
+const emit = defineEmits(["updateSelectedButton"]);
 
-    return {
-      selectedButton,
-      updateSelectedButton,
-    };
-  },
+const updateSelectedButton = (button) => {
+  selectedButton.value = button;
+  emit("updateSelectedButton", button);
 };
+
+defineExpose({
+  selectedButton,
+  updateSelectedButton,
+});
 </script>
 
 <style scoped>
