@@ -9,26 +9,23 @@
   />
 </template>
 
-<script>
-import { ref, watchEffect } from 'vue';
+<script setup>
+import { ref, watchEffect, defineEmits } from 'vue';
 import searchIcon from '../assets/ic_search@3x.png';
 
-export default {
-  setup(props, { emit }) {
-    const searchQuery = ref('');
+const searchQuery = ref('');
 
-    watchEffect(() => {
-      emit('updateSearchQuery', searchQuery.value);
-    });
+const emit = defineEmits(['updateSearchQuery']);
 
-    return {
-      searchQuery,
-      searchIcon,
-    };
-  },
-};
+watchEffect(() => {
+  emit('updateSearchQuery', searchQuery.value);
+});
+
+defineExpose({
+  searchQuery,
+  searchIcon,
+});
 </script>
-
 
 <style scoped>
 input {
