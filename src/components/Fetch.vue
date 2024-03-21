@@ -1,5 +1,5 @@
 <template>
-  <div v-if="houses && houses.length">
+  <div v-if="sortedAndFilteredHouses && sortedAndFilteredHouses.length">
     <Modal
       v-if="showModal"
       @delete-house="deleteHouse"
@@ -8,7 +8,7 @@
     <div v-if="route && route.name !== 'Details'" class="header-2" style="margin-bottom: 10px">
       {{ numberOfHouses }} houses found
     </div>
-    <div v-for="(house, index) in houses" :key="index">
+    <div v-for="house in sortedAndFilteredHouses" :key="house.id">
       <!-- <router-link :to="{ name: 'Details', params: { houseId: house.id } }"> -->
       <div class="house-card background-2 shadow-effect">
         <router-link :to="{ name: 'Details', params: { houseId: house.id } }">
@@ -104,60 +104,49 @@
   </div>
 </template>
 
-<script>
-import { ref, onMounted, computed } from "vue";
-import { useStore } from "vuex";
-import Modal from "./Modal.vue";
-import { useRoute } from "vue-router";
+<script setup>
+import { ref, onMounted, computed, defineProps } from 'vue';
+import { useStore } from 'vuex';
+import Modal from './Modal.vue';
+import { useRoute } from 'vue-router';
 
-export default {
-  components: {
-    Modal,
-  },
-  props: [
-    "searchQuery",
-    "selectedButton",
-    "limit",
-    "minPrice",
-    "maxPrice",
-    "madeByMe",
-    "notMadeByMe",
-  ],
-  setup(props) {
-    const store = useStore();
-    const houses = ref(null);
-    const houseId = ref(null); // Add this line
-    const showModal = ref(false);
-    const route = useRoute();
-    
+// Define props
+const props = defineProps([
+  'searchQuery',
+  'selectedButton',
+  'limit',
+  'minPrice',
+  'maxPrice',
+  'madeByMe',
+  'notMadeByMe',
+]);
 
-    onMounted(async () => {
-      await store.dispatch("fetchHouses");
-      houses.value = store.getters.houses;
-    });
+const store = useStore();
+const route = useRoute();
+const houses = ref(null);
+const houseId = ref(null); // Add this line
+const showModal = ref(false);
 
-    const sortedAndFilteredHouses = computed(() => {
-      let result = houses.value;
-      console.log(result);
-      if (props.searchQuery) {
-        const searchWords = props.searchQuery.toLowerCase().split(" ");
+onMounted(async () => {
+  await store.dispatch('fetchHouses');
+  houses.value = store.getters.houses;
+});
 
-        result = result.filter((house) => {
-          return searchWords.every((word) => {
-            return (
-              house.location.street.toLowerCase().includes(word) ||
-              house.location.houseNumber
-                .toString()
-                .toLowerCase()
-                .includes(word) ||
-              house.price.toString().toLowerCase().includes(word) ||
-              house.location.zip.toLowerCase().includes(word) ||
-              house.location.city.toLowerCase().includes(word) ||
-              house.size.toString().toLowerCase().includes(word)
-            );
-          });
-        });
-      }
+const sortedAndFilteredHouses = computed(() => {
+  let result = houses.value;
+  if (props.searchQuery) {
+    const searchWords = props.searchQuery.toLowerCase().split(' ');
+    result = result.filter((house) =>
+      searchWords.every((word) =>
+        house.location.street.toLowerCase().includes(word) ||
+        house.location.houseNumber.toString().toLowerCase().includes(word) ||
+        house.price.toString().toLowerCase().includes(word) ||
+        house.location.zip.toLowerCase().includes(word) ||
+        house.location.city.toLowerCase().includes(word) ||
+        house.size.toString().toLowerCase().includes(word),
+      ),
+    );
+  }
 
       if (
         (props.madeByMe === true && props.notMadeByMe === true && result) ||
@@ -231,31 +220,18 @@ export default {
       return result;
     });
 
-    const numberOfHouses = computed(() => {
-      return sortedAndFilteredHouses.value.length;
-    });
+    const numberOfHouses = computed(() => sortedAndFilteredHouses.value.length);
 
-    const prepareDelete = (id) => {
-      showModal.value = true;
-      houseId.value = id;
-    };
+const prepareDelete = (id) => {
+  showModal.value = true;
+  houseId.value = id;
+};
 
-    const deleteHouse = async () => {
-      await store.dispatch("deleteHouse", houseId.value);
-      await store.dispatch("fetchHouses"); // Add this line
-      houses.value = store.getters.houses; // Add this line
-      showModal.value = false;
-    };
-
-    return {
-      houses: sortedAndFilteredHouses,
-      showModal,
-      deleteHouse,
-      prepareDelete, // Add this line
-      numberOfHouses,
-      route,
-    };
-  },
+const deleteHouse = async () => {
+  await store.dispatch('deleteHouse', houseId.value);
+  await store.dispatch('fetchHouses');
+  houses.value = store.getters.houses;
+  showModal.value = false;
 };
 </script>
 
