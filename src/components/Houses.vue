@@ -42,48 +42,37 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Fetch from "./Fetch.vue";
 import { ref } from "vue";
 import Search from "./Search.vue";
 import SortingButtons from "./SortingButtons.vue";
 import Filter from "./Filter.vue";
 import Checkboxes from "./Checkboxes.vue";
+import { defineExpose } from 'vue';
 
-export default {
-  components: {
-    Fetch,
-    Search,
-    SortingButtons,
-    Filter,
-    Checkboxes,
-  },
-  setup() {
-    const selectedButton = ref("price");
-    const searchQuery = ref("");
-    const minPrice = ref(0); // Define minPrice
-    const maxPrice = ref(10000000); // Define maxPrice
-
-    const madeByMe = ref(true);
+const selectedButton = ref("price");
+const searchQuery = ref("");
+const minPrice = ref(0); // Define minPrice
+const maxPrice = ref(10000000); // Define maxPrice
+const madeByMe = ref(true);
 const notMadeByMe = ref(true);
-    const updateFilter = ({ minValue, maxValue }) => {
-      console.log('updateFIlter called with', minValue, maxValue)
-      minPrice.value = minValue;
-      maxPrice.value = maxValue;
 
-    };
-
-    return {
-      selectedButton,
-      searchQuery,
-      minPrice, // Return minPrice
-      maxPrice, // Return maxPrice
-      updateFilter, // Return updateFilter
-      madeByMe,
-      notMadeByMe,
-    };
-  },
+const updateFilter = ({ minValue, maxValue }) => {
+  console.log('updateFIlter called with', minValue, maxValue)
+  minPrice.value = minValue;
+  maxPrice.value = maxValue;
 };
+
+defineExpose({
+  selectedButton,
+  searchQuery,
+  minPrice, // Return minPrice
+  maxPrice, // Return maxPrice
+  updateFilter, // Return updateFilter
+  madeByMe,
+  notMadeByMe,
+});
 </script>
 <style scoped>
 .flex-1 {
