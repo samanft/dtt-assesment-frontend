@@ -12,11 +12,6 @@ Welcome to the House Listings Web Application, a dynamic and user-friendly platf
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
-
-Before you begin, ensure you have the following tools installed:
-- [Node.js](https://nodejs.org/): Required to run the backend server and the development environment.
-
 ### Installing
 
 Follow these steps to get your development environment running:
