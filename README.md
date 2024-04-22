@@ -54,3 +54,7 @@ Here’s a brief on how to use the application to manage house listings:
 - **Adding a New Listing**: Click the ‘Create New’ button or the + icon and fill in the property details.
 - **Editing a Listing**: Click on the pencil icon on any listing to edit its details.
 - **Deleting a Listing**: Click the recycle bin icon on any listing you wish to remove.
+
+## Preview video
+
+Will be added soon
