@@ -56,5 +56,6 @@ Here’s a brief on how to use the application to manage house listings:
 - **Deleting a Listing**: Click the recycle bin icon on any listing you wish to remove.
 
 ## Preview video
+[2024-07-05 11-09-43.webm](https://github.com/samanft/dtt-assessment-frontend/assets/25375434/de034005-e525-435d-93dd-ac127fe9a7fe)
 
 Will be added soon
